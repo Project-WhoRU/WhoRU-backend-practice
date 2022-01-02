@@ -1,7 +1,10 @@
-package com.jinbkim.whoru.tests;
+package com.jinbkim.whoru.tests.service;
 
-import com.jinbkim.whoru.questions.Question;
-import com.jinbkim.whoru.questions.QuestionRepository;
+import com.jinbkim.whoru.questions.domain.Question;
+import com.jinbkim.whoru.questions.repository.QuestionRepository;
+import com.jinbkim.whoru.tests.domain.Test;
+import com.jinbkim.whoru.tests.repository.TestRepository;
+import com.jinbkim.whoru.tests.web.dto.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;

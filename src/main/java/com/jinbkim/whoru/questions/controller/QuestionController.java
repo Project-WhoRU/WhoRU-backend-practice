@@ -1,5 +1,6 @@
-package com.jinbkim.whoru.questions;
+package com.jinbkim.whoru.questions.controller;
 
+import com.jinbkim.whoru.questions.service.QuestionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

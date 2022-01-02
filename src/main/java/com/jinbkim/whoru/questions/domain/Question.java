@@ -1,4 +1,4 @@
-package com.jinbkim.whoru.questions;
+package com.jinbkim.whoru.questions.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,6 +1,7 @@
-package com.jinbkim.whoru.tests;
+package com.jinbkim.whoru.tests.controller;
 
-import com.jinbkim.whoru.questions.QuestionService;
+import com.jinbkim.whoru.questions.service.QuestionService;
+import com.jinbkim.whoru.tests.service.TestService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

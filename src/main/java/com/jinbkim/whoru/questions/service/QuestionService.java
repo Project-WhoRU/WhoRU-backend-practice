@@ -1,5 +1,7 @@
-package com.jinbkim.whoru.questions;
+package com.jinbkim.whoru.questions.service;
 
+import com.jinbkim.whoru.questions.domain.Question;
+import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;

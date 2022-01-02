@@ -1,4 +1,4 @@
-package com.jinbkim.whoru.tests;
+package com.jinbkim.whoru.tests.web.dto;
 
 import java.util.List;
 
