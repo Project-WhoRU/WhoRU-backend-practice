@@ -2,6 +2,7 @@ package com.jinbkim.whoru.tests.controller;
 
 import com.jinbkim.whoru.questions.service.QuestionService;
 import com.jinbkim.whoru.tests.service.TestService;
+import com.jinbkim.whoru.tests.web.dto.QuestionListDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,8 +19,8 @@ public class TestController {
     private final TestService testService;
 
     @PostMapping()
-    public Map<String, Object> createTest(@RequestBody Map<String, Object> requestBody) {
-        return testService.createTest(requestBody);
+    public Map<String, Object> TestAdd(@RequestBody QuestionListDto requestBody) {
+        return testService.addTest(requestBody);
     }
 
     @GetMapping()

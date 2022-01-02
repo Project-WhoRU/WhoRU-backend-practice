@@ -2,9 +2,12 @@ package com.jinbkim.whoru.tests.service;
 
 import com.jinbkim.whoru.questions.domain.Question;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
+import com.jinbkim.whoru.questions.service.QuestionService;
+import com.jinbkim.whoru.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.tests.domain.Test;
 import com.jinbkim.whoru.tests.repository.TestRepository;
 import com.jinbkim.whoru.tests.web.dto.Example;
+import com.jinbkim.whoru.tests.web.dto.QuestionListDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,21 +18,31 @@ import java.util.*;
 public class TestService {
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
 
-    public TestService(TestRepository testRepository, QuestionRepository questionRepository) {
+    public TestService(TestRepository testRepository, QuestionRepository questionRepository, QuestionService questionService) {
         this.testRepository = testRepository;
         this.questionRepository = questionRepository;
+        this.questionService = questionService;
     }
 
     // 일단 무조건 성공
-    public Map<String, Object> createTest(@RequestBody Map<String, Object> requestBody){
+    public Map<String, Object> addTest(@RequestBody QuestionListDto requestBody){
         // db에 질문지 테스트 저장
-        Test test = new Test((String)requestBody.get("nickname") ,(List<String>) requestBody.get("questions"));
+        Test test = new Test(requestBody.getNickname());
+        List<QuestionDto> questionList = requestBody.getQuestionList();
+        for(int i=0; i<questionList.size(); i++) {
+            Map<String, Object> questionId = questionService.addQuestion(questionList.get(i));
+            if (!questionId.containsKey("questionId"))  // questionId가 담겨있지 않다는건, 질문지 생성 실패
+                continue ;
+            test.getQuestions().add((String)questionId.get("questionId"));
+        }
         testRepository.save(test);
 
-        Map<String, Object> isSuccess = new HashMap<String, Object>();
-        isSuccess.put("success", true);
-        return isSuccess;
+        // 성공시 테스트 아이디 반환
+        Map<String, Object> testId = new HashMap<String, Object>();
+        testId.put("testId", test.getId());
+        return testId;
     }
 
     public Map<String, Object> readTest(@RequestParam Map<String, Object> requestParam) {
