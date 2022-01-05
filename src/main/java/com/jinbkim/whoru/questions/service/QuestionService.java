@@ -1,12 +1,10 @@
 package com.jinbkim.whoru.questions.service;
 
 import com.jinbkim.whoru.questions.domain.Question;
+import com.jinbkim.whoru.questions.domain.QuestionType;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class QuestionService {
@@ -16,49 +14,45 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    // 일단 무조건 성공
-    public Map<String, Object> addQuestion(QuestionDto questionDto) {
+    public String addQuestion(QuestionDto QuestionDto) {
         // db에 질문지 저장
-        Map<String, Object> response = new HashMap<String, Object>();
-        Question question = new Question(questionDto.getQuestion(), questionDto.getExamples(), questionDto.getAnswer());
+        Question question = Question.builder()
+                .type(QuestionDto.getType())
+                .question(QuestionDto.getQuestion())
+                .examples(QuestionDto.getExamples())
+                .answer(QuestionDto.getAnswer())
+                .build();
         questionRepository.save(question);
 
-        // 성공시 questionId 반환
-        response.put("questionId", question.getId());
-        return response;
+        // questionId 반환
+        return question.getId();
     }
 
-//    public Map<String, Object> updateQuestion(@RequestBody Map<String, Object> requestBody) {
-//        Optional<Question> question = questionRepository.findById((String)requestBody.get("question_id"));
-//        Map<String, Object> response = new HashMap<String, Object>();
-//        // 조회 하려는 question_id가 없으면
-//        if (!question.isPresent()) {
-//            response.put("success", false);
-//            return response;
-//        }
-//
-//        // 질문지 정보 변경
-//        question.get().setQuestion((String) requestBody.get("question"));
-//        question.get().setExamples((List<String>) requestBody.get("examples"));
-//        question.get().setAnswer((int) requestBody.get("answer"));
-//        questionRepository.save(question.get());
-//
-//        // 성공시 question_id 반환
-//        response.put("question_id", question.get().getId());
-//        return response;
-//    }
-//
-//    public Map<String, Object> deleteQuestion(@RequestParam Map<String, Object> requestParam) {
-//        Optional<Question> question = questionRepository.findById((String)requestParam.get("question_id"));
-//        Map<String, Object> response = new HashMap<String, Object>();
-//        // 조회 하려는 question_id가 없으면
-//        if (!question.isPresent()) {
-//            response.put("success", false);
-//            return response;
-//        }
-//
-//        questionRepository.delete(question.get());
-//        response.put("success", true);
-//        return response;
-//    }
+    private boolean gradeMultipleChoiceQuestion(int answerSubmit, int answer) {
+        if (answerSubmit == answer)
+            return true;
+        return false;
+    }
+
+    private boolean gradeShortAnswerQuestion(String answerSubmit, String answer) {
+        if (answerSubmit.equals(answer))
+            return true;
+        return false;
+    }
+
+    private boolean gradeOXQuestion(boolean answerSubmit, boolean answer) {
+        if (answerSubmit == answer)
+            return true;
+        return false;
+    }
+
+    public boolean gradeQuestion(QuestionType type, Object answerSubmit, Object answer) {
+        if (type == QuestionType.MULTIPLE_CHOICE && answerSubmit instanceof Integer && answer instanceof Integer)
+            return gradeMultipleChoiceQuestion((int)answerSubmit, (int)answer);
+        else if (type == QuestionType.SHORT_ANSWER && answerSubmit instanceof String && answer instanceof String)
+            return gradeShortAnswerQuestion((String)answerSubmit, (String)answer);
+        else if (type == QuestionType.OX && answerSubmit instanceof Boolean && answer instanceof Boolean)
+            return gradeOXQuestion((boolean)answerSubmit, (boolean)answer);
+        return false;
+    }
 }

@@ -1,26 +1,22 @@
 package com.jinbkim.whoru.questions.domain;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
+import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
+@Builder
 public class Question {
     @Id
     private String id;
 
+    private QuestionType type;
     private String question;
-    private List<String> examples;
-    private int answer;
-
-    public Question(String question, List<String> examples, int answer) {
-        this.question = question;
-        this.examples = examples;
-        this.answer = answer;
-    }
+    @Nullable
+    private Object examples;
+    @Nullable
+    private Object answer;
 }

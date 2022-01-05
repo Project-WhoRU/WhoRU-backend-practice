@@ -1,14 +1,21 @@
 package com.jinbkim.whoru.questions.web.dto;
 
+import com.jinbkim.whoru.questions.domain.QuestionType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
+import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 @AllArgsConstructor
 @Getter
+@Setter
+@Builder
 public class QuestionDto {
+    private QuestionType type;
     private String question;
-    private List<String> examples;
-    private int answer;
+    @Nullable
+    private Object examples;
+    @Nullable
+    private Object answer;
 }

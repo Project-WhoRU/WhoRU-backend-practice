@@ -1,13 +1,13 @@
 package com.jinbkim.whoru.tests.web.dto;
 
-
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Getter
-public class QuestionListDto {
-    private String nickname;
-    private List<QuestionDto> questionList;
+public class TestFindResponseDto {
+    private List<QuestionDto> questions;
 }

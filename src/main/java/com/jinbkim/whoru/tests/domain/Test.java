@@ -1,5 +1,6 @@
 package com.jinbkim.whoru.tests.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -10,15 +11,11 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 public class Test {
     @Id
     private String id;
 
     private String nickname;
-    private List<String> questions;
-
-    public Test(String nickname) {
-        this.nickname = nickname;
-        questions = new ArrayList<>();
-    }
+    private List<String> questionIds;
 }
