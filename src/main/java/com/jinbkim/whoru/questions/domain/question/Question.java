@@ -1,4 +1,4 @@
-package com.jinbkim.whoru.questions.domain;
+package com.jinbkim.whoru.questions.domain.question;
 
 import lombok.Builder;
 import lombok.Getter;

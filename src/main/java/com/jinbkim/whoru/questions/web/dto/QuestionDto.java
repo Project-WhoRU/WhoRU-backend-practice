@@ -1,6 +1,6 @@
 package com.jinbkim.whoru.questions.web.dto;
 
-import com.jinbkim.whoru.questions.domain.QuestionType;
+import com.jinbkim.whoru.questions.domain.question.QuestionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

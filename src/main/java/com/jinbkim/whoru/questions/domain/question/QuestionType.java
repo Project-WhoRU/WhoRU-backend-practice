@@ -1,4 +1,4 @@
-package com.jinbkim.whoru.questions.domain;
+package com.jinbkim.whoru.questions.domain.question;
 
 public enum QuestionType {
     MULTIPLE_CHOICE,

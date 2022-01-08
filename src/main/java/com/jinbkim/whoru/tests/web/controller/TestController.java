@@ -10,11 +10,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/tests")
 public class TestController {
-    private final QuestionService questionService;
     private final TestService testService;
 
-    public TestController(QuestionService questionService, TestService testService) {
-        this.questionService = questionService;
+    public TestController(TestService testService) {
         this.testService = testService;
     }
 

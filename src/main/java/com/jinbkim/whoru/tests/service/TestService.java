@@ -1,7 +1,7 @@
 package com.jinbkim.whoru.tests.service;
 
-import com.jinbkim.whoru.questions.domain.Question;
-import com.jinbkim.whoru.questions.domain.QuestionType;
+import com.jinbkim.whoru.questions.domain.question.Question;
+import com.jinbkim.whoru.questions.domain.question.QuestionType;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.service.QuestionService;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
@@ -41,8 +41,7 @@ public class TestService {
         testRepository.save(test);
 
         // testId 반환
-        TestAddResponseDto testAddResponseDto = new TestAddResponseDto(test.getId());
-        return testAddResponseDto;
+        return new TestAddResponseDto(test.getId());
     }
 
     public TestFindResponseDto findTest(String testId) {
@@ -81,11 +80,10 @@ public class TestService {
         }
 
         // 문제의 수, 정답의 수 반환
-        TestGradeResponseDto testGradeResponseDto = TestGradeResponseDto.builder()
+        return TestGradeResponseDto.builder()
                 .questionsCount(answerSubmit.size())
                 .answersCount(answerCount)
                 .build();
-        return testGradeResponseDto;
     }
 
     public void removeTest(@RequestParam String testId) {
