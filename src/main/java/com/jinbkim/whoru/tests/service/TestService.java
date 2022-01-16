@@ -1,13 +1,13 @@
 package com.jinbkim.whoru.tests.service;
 
 import com.jinbkim.whoru.questions.domain.question.Question;
-import com.jinbkim.whoru.questions.domain.question.QuestionType;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.service.QuestionService;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.tests.domain.Test;
 import com.jinbkim.whoru.tests.repository.TestRepository;
 import com.jinbkim.whoru.tests.web.dto.*;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,23 +47,25 @@ public class TestService {
     public TestFindResponseDto findTest(String testId) {
         // testId로 테스트의 questionIds 조회
         Test test = testRepository.findById(testId).get();
-        List<String> questionIds = test.getQuestionIds();
 
         // questionId로 questions 조회
-        List<QuestionDto> questions = new ArrayList<QuestionDto>();
-        for(String questionId: questionIds) {
-            Question question = questionRepository.findById(questionId).get();
-            QuestionDto questionDto = QuestionDto.builder()
-                    .type(question.getType())
-                    .question(question.getQuestion())
-                    .build();
-            if (questionDto.getType() == QuestionType.MULTIPLE_CHOICE)
-                questionDto.setExamples(question.getExamples());
-            questions.add(questionDto);
-        }
+        List<QuestionDto> questionDtoList = test.getQuestionIds().stream()
+            .map(questionRepository::findById)
+            .map(Optional::get)
+            .map(this::createQuestionDto)
+            .collect(Collectors.toList());
 
         // 구한 questions를 반환
-        return new TestFindResponseDto(questions);
+        return new TestFindResponseDto(questionDtoList);
+    }
+
+    private QuestionDto createQuestionDto(Question question) {
+        return QuestionDto.builder()
+            .type(question.getType())
+            .question(question.getQuestion())
+            .examples(question.getExamples())
+            .answer(question.getAnswer())
+            .build();
     }
 
     public TestGradeResponseDto gradeTest(@RequestBody TestGradeRequestDto testGradeRequestDto) {
@@ -92,10 +94,8 @@ public class TestService {
 
         // test의 모든 question 제거
         List<String> questionIds = test.getQuestionIds();
-        for(int i=0; i<questionIds.size(); i++) {
-            Question question = questionRepository.findById(questionIds.get(i)).get();
-            questionRepository.delete(question);
-        }
+        for (String questionId : questionIds)
+            questionRepository.delete(questionRepository.findById(questionId).get());
 
         // test 제거
         testRepository.delete(test);

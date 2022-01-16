@@ -1,11 +1,8 @@
 package com.jinbkim.whoru.tests.web.controller;
 
-import com.jinbkim.whoru.questions.service.QuestionService;
 import com.jinbkim.whoru.tests.service.TestService;
 import com.jinbkim.whoru.tests.web.dto.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("api/tests")
