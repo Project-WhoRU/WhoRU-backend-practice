@@ -1,21 +1,22 @@
 package com.jinbkim.whoru.tests.domain;
 
+import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
-public class Test {
+public class Tests {
     @Id
     private String id;
 
+    @NotBlank
     private String nickname;
+
     private List<String> questionIds;
 }
