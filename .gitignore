@@ -3,7 +3,7 @@ HELP.md
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
-!**/src/test/**/build/
+!**/src/tests/**/build/
 
 ### STS ###
 .apt_generated
@@ -15,7 +15,7 @@ build/
 .sts4-cache
 bin/
 !**/src/main/**/bin/
-!**/src/test/**/bin/
+!**/src/tests/**/bin/
 
 ### IntelliJ IDEA ###
 .idea
@@ -24,7 +24,7 @@ bin/
 *.ipr
 out/
 !**/src/main/**/out/
-!**/src/test/**/out/
+!**/src/tests/**/out/
 
 ### NetBeans ###
 /nbproject/private/

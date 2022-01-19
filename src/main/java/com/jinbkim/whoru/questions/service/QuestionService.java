@@ -6,11 +6,14 @@ import com.jinbkim.whoru.questions.domain.questiongradingpolicy.GradingPolicy;
 import com.jinbkim.whoru.questions.domain.questiongradingpolicy.GradingPolicyFactory;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
@@ -24,6 +27,8 @@ public class QuestionService {
                 .examples(QuestionDto.getExamples())
                 .answer(QuestionDto.getAnswer())
                 .build();
+        if (validator.validate(question).size() > 0)
+            throw new NullPointerException();
         questionRepository.save(question);
 
         // questionId 반환
