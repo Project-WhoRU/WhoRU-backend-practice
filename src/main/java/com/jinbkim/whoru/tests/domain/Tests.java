@@ -1,6 +1,7 @@
 package com.jinbkim.whoru.tests.domain;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +15,6 @@ import java.util.List;
 public class Tests {
     @Id
     private String id;
-
-    @NotBlank
     private String nickname;
-
     private List<String> questionIds;
 }

@@ -1,5 +1,8 @@
 package com.jinbkim.whoru.tests.service;
 
+import com.jinbkim.whoru.exception.customexceptions.AnswerSizeIsWrongException;
+import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
+import com.jinbkim.whoru.exception.utils.ExceptionThrow;
 import com.jinbkim.whoru.questions.domain.question.Question;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.service.QuestionService;
@@ -8,6 +11,7 @@ import com.jinbkim.whoru.tests.domain.Tests;
 import com.jinbkim.whoru.tests.repository.TestRepository;
 import com.jinbkim.whoru.tests.web.dto.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,6 @@ public class TestService {
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
     private final QuestionService questionService;
-    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     public TestService(TestRepository testRepository, QuestionRepository questionRepository, QuestionService questionService) {
         this.testRepository = testRepository;
@@ -39,8 +42,7 @@ public class TestService {
                 .nickname(testAddRequestDto.getNickname())
                 .questionIds(questionIds)
                 .build();
-        if (validator.validate(tests).size() > 0)
-            throw new NullPointerException();
+        ExceptionThrow.exceptionThrow(tests, "tests");
         testRepository.save(tests);
 
         // testId 반환
@@ -49,10 +51,8 @@ public class TestService {
 
     public TestFindResponseDto findTest(String testId) {
         // testId로 테스트의 questionIds 조회
-        Optional<Tests> testsOptional = testRepository.findById(testId);
-        if (!testsOptional.isPresent())
-            throw new NullPointerException();
-        Tests tests = testsOptional.get();
+        Tests tests = testRepository.findById(testId)
+            .orElseThrow(() -> new TestDoesntExistException());
 
         // questionId로 questions 조회
         List<QuestionDto> questionDtoList = tests.getQuestionIds().stream()
@@ -76,16 +76,14 @@ public class TestService {
 
     public TestGradeResponseDto gradeTest(TestGradeRequestDto testGradeRequestDto) {
         // testId로 tests 조회
-        Optional<Tests> testsOptional = testRepository.findById(testGradeRequestDto.getTestId());
-        if (!testsOptional.isPresent())
-            throw new NullPointerException();
-        Tests tests = testsOptional.get();
+        Tests tests = testRepository.findById(testGradeRequestDto.getTestId())
+            .orElseThrow(() -> new TestDoesntExistException());
 
         // 정답 수 세기
         int answerCount = 0;
         List<Object> answerSubmit = testGradeRequestDto.getAnswerSubmit();
         if (answerSubmit.size() != tests.getQuestionIds().size())
-            throw new ArrayIndexOutOfBoundsException();
+            throw new AnswerSizeIsWrongException();
         for(int i=0; i<answerSubmit.size(); i++) {
             Question question = questionRepository.findById(tests.getQuestionIds().get(i)).get();
             if (questionService.gradeQuestion(question.getType(), answerSubmit.get(i), question.getAnswer()))  // 정답이면
@@ -99,12 +97,10 @@ public class TestService {
                 .build();
     }
 
-    public void removeTest(String testId) {
+    public void removeTest(String testId) throws TestDoesntExistException {
         // testId로 tests 조회
-        Optional<Tests> testsOptional = testRepository.findById(testId);
-        if (!testsOptional.isPresent())
-            throw new NullPointerException();
-        Tests tests = testsOptional.get();
+        Tests tests = testRepository.findById(testId)
+            .orElseThrow(() -> new TestDoesntExistException());
 
         // test의 모든 question 제거
         List<String> questionIds = tests.getQuestionIds();

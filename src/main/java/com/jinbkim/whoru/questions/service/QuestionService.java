@@ -1,19 +1,18 @@
 package com.jinbkim.whoru.questions.service;
 
+import com.jinbkim.whoru.exception.utils.ExceptionThrow;
 import com.jinbkim.whoru.questions.domain.question.Question;
 import com.jinbkim.whoru.questions.domain.question.QuestionType;
 import com.jinbkim.whoru.questions.domain.questiongradingpolicy.GradingPolicy;
 import com.jinbkim.whoru.questions.domain.questiongradingpolicy.GradingPolicyFactory;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
-import javax.validation.Validation;
-import javax.validation.Validator;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
-    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
@@ -22,13 +21,12 @@ public class QuestionService {
     public String addQuestion(QuestionDto QuestionDto) {
         // db에 질문지 저장
         Question question = Question.builder()
-                .type(QuestionDto.getType())
-                .question(QuestionDto.getQuestion())
-                .examples(QuestionDto.getExamples())
-                .answer(QuestionDto.getAnswer())
-                .build();
-        if (validator.validate(question).size() > 0)
-            throw new NullPointerException();
+            .type(QuestionDto.getType())
+            .question(QuestionDto.getQuestion())
+            .examples(QuestionDto.getExamples())
+            .answer(QuestionDto.getAnswer())
+            .build();
+        ExceptionThrow.exceptionThrow(question, "question");
         questionRepository.save(question);
 
         // questionId 반환
