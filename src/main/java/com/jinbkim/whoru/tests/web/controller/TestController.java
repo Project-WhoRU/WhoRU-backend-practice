@@ -2,22 +2,22 @@ package com.jinbkim.whoru.tests.web.controller;
 
 import com.jinbkim.whoru.exception.customexceptions.NotnullException;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
+import com.jinbkim.whoru.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.tests.service.TestService;
 import com.jinbkim.whoru.tests.web.dto.*;
+import java.util.List;
 import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/tests")
 public class TestController {
     private final TestService testService;
 
-    public TestController(TestService testService) {
-        this.testService = testService;
-    }
-
-    @PostMapping()
+    @PostMapping
     public TestAddResponseDto TestAdd(@Valid @RequestBody TestAddRequestDto testAddRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             throw new NotnullException(bindingResult);
@@ -29,7 +29,7 @@ public class TestController {
         }
     }
 
-    @GetMapping()
+
     public TestFindResponseDto Testfind(@RequestParam(value = "testId") String testId) {
         try {
             return testService.findTest(testId);

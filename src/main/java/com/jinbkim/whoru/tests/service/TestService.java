@@ -14,21 +14,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class TestService {
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
     private final QuestionService questionService;
-
-    public TestService(TestRepository testRepository, QuestionRepository questionRepository, QuestionService questionService) {
-        this.testRepository = testRepository;
-        this.questionRepository = questionRepository;
-        this.questionService = questionService;
-    }
 
     public TestAddResponseDto addTest(TestAddRequestDto testAddRequestDto){
         // questId 구하기
@@ -62,7 +58,7 @@ public class TestService {
             .collect(Collectors.toList());
 
         // 구한 questions를 반환
-        return new TestFindResponseDto(questionDtoList);
+        return new TestFindResponseDto(tests.getNickname(), questionDtoList);
     }
 
     private QuestionDto createQuestionDto(Question question) {
@@ -81,12 +77,12 @@ public class TestService {
 
         // 정답 수 세기
         int answerCount = 0;
-        List<Object> answerSubmit = testGradeRequestDto.getAnswerSubmit();
+        List<String> answerSubmit = testGradeRequestDto.getAnswerSubmit();
         if (answerSubmit.size() != tests.getQuestionIds().size())
             throw new AnswerSizeIsWrongException();
         for(int i=0; i<answerSubmit.size(); i++) {
             Question question = questionRepository.findById(tests.getQuestionIds().get(i)).get();
-            if (questionService.gradeQuestion(question.getType(), answerSubmit.get(i), question.getAnswer()))  // 정답이면
+            if (answerSubmit.get(i).equals(question.getAnswer()))  // 정답이면
                 answerCount++;
         }
 

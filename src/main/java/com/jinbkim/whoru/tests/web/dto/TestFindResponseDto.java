@@ -9,5 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class TestFindResponseDto {
+    private String nickname;
     private List<QuestionDto> questions;
 }

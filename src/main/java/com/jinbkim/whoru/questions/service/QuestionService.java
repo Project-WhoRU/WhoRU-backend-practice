@@ -2,9 +2,6 @@ package com.jinbkim.whoru.questions.service;
 
 import com.jinbkim.whoru.exception.utils.ExceptionThrow;
 import com.jinbkim.whoru.questions.domain.question.Question;
-import com.jinbkim.whoru.questions.domain.question.QuestionType;
-import com.jinbkim.whoru.questions.domain.questiongradingpolicy.GradingPolicy;
-import com.jinbkim.whoru.questions.domain.questiongradingpolicy.GradingPolicyFactory;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
 
@@ -31,10 +28,5 @@ public class QuestionService {
 
         // questionId 반환
         return question.getId();
-    }
-
-    public boolean gradeQuestion(QuestionType type, Object answerSubmit, Object answer) {
-        GradingPolicy gradingPolicy = GradingPolicyFactory.createGradingPolicy(type);
-        return gradingPolicy.isCorrect(answerSubmit, answer);
     }
 }

@@ -1,5 +1,7 @@
 package com.jinbkim.whoru.questions.domain.question;
 
+import java.util.List;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +14,11 @@ public class Question {
     private String id;
     private QuestionType type;
     private String question;
-    private Object examples;
-    private Object answer;
+    private Examples  examples;
+    private String answer;
 
     @Builder
-    public Question(QuestionType type, String question, Object examples, Object answer) {
+    public Question(QuestionType type, String question, Examples examples, String answer) {
         this.type = type;
         this.question = question;
         this.examples = examples;
