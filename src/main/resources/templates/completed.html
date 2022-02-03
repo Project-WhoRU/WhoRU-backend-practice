@@ -1,0 +1,27 @@
+{{>/header}}
+<div class="mx-auto" style="width: 500px;">
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">WhoRU: 내가 누구게?</h1>
+    <p class="lead">질문지 생성이 완료되었습니다. 친구들에게 공유하고 추천해 주세요!</p>
+    <p class="lead">
+      <input type="hidden" id="testId" value="{{testId}}">
+      <a href="#" onclick="copyToClipboard()" class="btn btn-lg btn-secondary">링크 복사하기</a>
+    </p>
+  </main>
+</div>
+
+<script>
+  function copyToClipboard() {
+    const t = document.createElement("textarea");
+    document.body.appendChild(t);
+    var testId = document.getElementById("testId").value;
+    t.value = "http://localhost:8080/tests/" + testId;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+  }
+  function copy() {
+    copyToClipboard('Hello World');
+    console.log('Copied!');
+  }
+</script>

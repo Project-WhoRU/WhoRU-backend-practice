@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -109,5 +110,28 @@ public class TestService {
 
         // tests 제거
         testRepository.delete(tests);
+    }
+
+    public String initTest(TestInitRequestDto testInitRequestDto) {
+        Tests test = Tests.builder().nickname(testInitRequestDto.getNickname()).build();
+        testRepository.save(test);
+        return test.getId();
+    }
+
+    public void addQuestion(String testId, String questionId) {
+        Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
+        List<String> questionIds = tests.getQuestionIds();
+        if (questionIds == null) {
+            questionIds = new ArrayList<>();
+        }
+        questionIds.add(questionId);
+        tests.setQuestionIds(questionIds);
+        testRepository.save(tests);
+    }
+
+    public void completeTest(String testId) {
+        Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
+        tests.setCompleted(true);
+        testRepository.save(tests);
     }
 }

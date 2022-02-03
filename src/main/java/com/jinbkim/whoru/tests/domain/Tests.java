@@ -1,5 +1,6 @@
 package com.jinbkim.whoru.tests.domain;
 
+import java.util.ArrayList;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
@@ -16,5 +17,6 @@ public class Tests {
     @Id
     private String id;
     private String nickname;
-    private List<String> questionIds;
+    private List<String> questionIds = new ArrayList<>();
+    private Boolean completed = false;
 }
