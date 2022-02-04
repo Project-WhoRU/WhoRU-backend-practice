@@ -115,7 +115,7 @@ public class TestServiceTests {
         TestAddResponseDto testAddResponseDto = testService.addTest(testAddRequestDto);
         Tests tests = testRepository.findById((testAddResponseDto.getTestId())).get();
         // 테스트아이디와, 정답들로 TestGradeRequestDto 생성
-        List<Object> answerSubmit = new ArrayList<>();
+        List<String> answerSubmit = new ArrayList<>();
         for(String questionId : tests.getQuestionIds())
             answerSubmit.add(questionRepository.findById(questionId).get().getAnswer());
         TestGradeRequestDto testGradeRequestDto = new TestGradeRequestDto(tests.getId(), answerSubmit);
@@ -137,7 +137,7 @@ public class TestServiceTests {
         TestAddResponseDto testAddResponseDto = testService.addTest(testAddRequestDto);
         Tests tests = testRepository.findById((testAddResponseDto.getTestId())).get();
         // 테스트아이디와, 정답들로 TestGradeRequestDto 생성
-        List<Object> answerSubmit = new ArrayList<>();
+        List<String> answerSubmit = new ArrayList<>();
         for(String questionId : tests.getQuestionIds())
             answerSubmit.add(questionRepository.findById(questionId).get().getAnswer());
         answerSubmit.add("one more"); // 일부러 틀리게 정답개수를 하나 더 넣음
