@@ -11,9 +11,6 @@ import com.jinbkim.whoru.tests.domain.Tests;
 import com.jinbkim.whoru.tests.repository.TestRepository;
 import com.jinbkim.whoru.tests.web.dto.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,24 +23,24 @@ public class TestService {
     private final QuestionRepository questionRepository;
     private final QuestionService questionService;
 
-    public TestAddResponseDto addTest(TestAddRequestDto testAddRequestDto){
-        // questId 구하기
-        List<String> questionIds = new ArrayList<>();
-        List<QuestionDto> questions = testAddRequestDto.getQuestions();
-        for(QuestionDto questionDto: questions)
-            questionIds.add(questionService.addQuestion(questionDto));
-
-        // db에 tests 저장
-        Tests tests = Tests.builder()
-                .nickname(testAddRequestDto.getNickname())
-                .questionIds(questionIds)
-                .build();
-        ExceptionThrow.exceptionThrow(tests, "tests");
-        testRepository.save(tests);
-
-        // testId 반환
-        return new TestAddResponseDto(tests.getId());
-    }
+//    public TestAddResponseDto addTest(TestAddRequestDto testAddRequestDto){
+//        // questId 구하기
+//        List<String> questionIds = new ArrayList<>();
+//        List<QuestionDto> questions = testAddRequestDto.getQuestions();
+//        for(QuestionDto questionDto: questions)
+//            questionIds.add(questionService.addQuestion(questionDto));
+//
+//        // db에 tests 저장
+//        Tests tests = Tests.builder()
+//                .nickname(testAddRequestDto.getNickname())
+//                .questionIds(questionIds)
+//                .build();
+//        ExceptionThrow.exceptionThrow(tests, "tests");
+//        testRepository.save(tests);
+//
+//        // testId 반환
+//        return new TestAddResponseDto(tests.getId());
+//    }
 
     public TestFindResponseDto findTest(String testId) {
         // testId로 테스트의 questionIds 조회
@@ -105,5 +102,25 @@ public class TestService {
 
         // tests 제거
         testRepository.delete(tests);
+    }
+
+    public String setNickname(TestSetNicknameRequestDto testSetNicknameRequestDto) {
+        // 테스트에 일단 아이디만 넣기
+        Tests test = Tests.builder()
+            .nickname(testSetNicknameRequestDto.getNickname())
+            .build();
+        testRepository.save(test);
+
+        // 테스트 아이디 반환
+        return test.getId();
+    }
+
+    public void addQuestion(String testId, String questionId) {
+        // testId로 tests 조회
+        Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
+
+        // question 추가
+        tests.addQuestion(questionId);
+        testRepository.save(tests);
     }
 }

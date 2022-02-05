@@ -1,7 +1,6 @@
 package com.jinbkim.whoru.tests.domain;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +10,19 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 public class Tests {
     @Id
     private String id;
     private String nickname;
     private List<String> questionIds;
+
+    @Builder
+    Tests(String nickname) {
+        this.nickname = nickname;
+        questionIds = new ArrayList<>();
+    }
+
+    public void addQuestion(String questionId) {
+        questionIds.add(questionId);
+    }
 }

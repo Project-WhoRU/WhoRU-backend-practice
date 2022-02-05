@@ -1,0 +1,39 @@
+package com.jinbkim.whoru.questions.controller;
+
+import com.jinbkim.whoru.questions.service.QuestionService;
+import com.jinbkim.whoru.questions.web.dto.QuestionDto;
+import com.jinbkim.whoru.tests.service.TestService;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequiredArgsConstructor
+@Controller
+@RequestMapping("/api/questions")
+public class QuestionController {
+
+    private final QuestionService questionService;
+    private final TestService testService;
+
+    @PostMapping
+    public String questionAdd(@Valid QuestionDto questionDto, HttpSession httpSession) {
+        String questionId = questionService.addQuestion(questionDto);
+        String testId = (String) httpSession.getAttribute("testId");
+        testService.addQuestion(testId, questionId);
+        return "redirect:/select-question-type";
+    }
+
+//    @PostMapping("/complete")
+//    public String questionComplete(@Valid QuestionDto questionDto, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+//        String questionId = questionService.addQuestion(questionDto);
+//        String testId = (String) httpSession.getAttribute("testId");
+//        testService.addQuestion(testId, questionId);
+//        testService.completeTest(testId);
+//        httpSession.invalidate();
+//        redirectAttributes.addFlashAttribute("testId", testId);
+//        return "redirect:/completed";
+//    }
+}
