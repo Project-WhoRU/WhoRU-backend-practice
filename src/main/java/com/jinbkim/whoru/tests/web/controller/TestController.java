@@ -60,18 +60,4 @@ public class TestController {
             throw new TestDoesntExistException();
         }
     }
-
-    @PostMapping("/set-nickname")
-    public String setNickname(@Valid TestSetNicknameRequestDto testSetNicknameRequestDto, BindingResult bindingResult, HttpSession httpSession) {
-        if (bindingResult.hasErrors())
-            throw new NotnullException(bindingResult);
-        try {
-            String testId = testService.setNickname(testSetNicknameRequestDto);
-            httpSession.setAttribute("testId", testId);
-            return "redirect:/select-question-type";
-        }
-        catch (NotnullException e) {
-            throw new NotnullException(e.getErrors());
-        }
-    }
 }
