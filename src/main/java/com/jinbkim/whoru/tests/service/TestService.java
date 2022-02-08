@@ -44,8 +44,7 @@ public class TestService {
 
     public TestFindResponseDto findTest(String testId) {
         // testId로 테스트의 questionIds 조회
-        Tests tests = testRepository.findById(testId)
-            .orElseThrow(() -> new TestDoesntExistException());
+        Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
 
         // questionId로 questions 조회
         List<QuestionDto> questionDtoList = tests.getQuestionIds().stream()
@@ -69,8 +68,7 @@ public class TestService {
 
     public TestGradeResponseDto gradeTest(TestGradeRequestDto testGradeRequestDto) {
         // testId로 tests 조회
-        Tests tests = testRepository.findById(testGradeRequestDto.getTestId())
-            .orElseThrow(() -> new TestDoesntExistException());
+        Tests tests = testRepository.findById(testGradeRequestDto.getTestId()).orElseThrow(TestDoesntExistException::new);
 
         // 정답 수 세기
         int answerCount = 0;
@@ -92,8 +90,7 @@ public class TestService {
 
     public void removeTest(String testId) throws TestDoesntExistException {
         // testId로 tests 조회
-        Tests tests = testRepository.findById(testId)
-            .orElseThrow(() -> new TestDoesntExistException());
+        Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
 
         // test의 모든 question 제거
         List<String> questionIds = tests.getQuestionIds();
