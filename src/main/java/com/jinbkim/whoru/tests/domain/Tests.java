@@ -14,12 +14,12 @@ public class Tests {
     @Id
     private String id;
     private String nickname;
-    private List<String> questionIds;
+    private List<String> questionIds = new ArrayList<>();;
+    private Boolean complete= false;
 
     @Builder
     Tests(String nickname) {
         this.nickname = nickname;
-        questionIds = new ArrayList<>();
     }
 
     public void addQuestion(String questionId) {

@@ -14,7 +14,7 @@ public class Question {
     private String id;
     private QuestionType type;
     private String question;
-    private Examples  examples;
+    private Examples examples;
     private String answer;
 
     @Builder

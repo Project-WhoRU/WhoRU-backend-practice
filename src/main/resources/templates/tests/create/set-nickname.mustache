@@ -1,14 +1,25 @@
 {{>layout/header}}
 
 <div class="mx-auto" style="width: 500px;">
-  <form method="post" action="/set-nickname">
+  <form method="post" action="/set-nickname" onsubmit="return checkNickname()">
     <div class="form-group">
       <label for="nickname">닉네임</label>
       <input class="form-control" id="nickname" name="nickname" aria-describedby="nickname-condition">
-      <small id="nickname-condition" class="form-text text-muted">글자수는 8자 이하로 적어주세요.</small>
+      <small id="nickname-condition" class="form-text text-muted">글자수는 공백이 아닌 8자 이하로 적어주세요.</small>
     </div>
     <button type="submit" class="btn btn-primary">시작하기</button>
   </form>
 </div>
+
+<script>
+  function checkNickname() {
+    let nickname = document.getElementById("nickname").value;
+    let blankPattern = /[\s]/g;
+    if (blankPattern.test(nickname) === true) {
+      alert("공백이 입력되었습니다.");
+      return false;
+    }
+  }
+</script>
 
 {{>layout/footer}}

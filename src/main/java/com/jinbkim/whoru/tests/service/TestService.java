@@ -115,12 +115,21 @@ public class TestService {
         return test.getId();
     }
 
-    public void addQuestion(String testId, String questionId) {
+    public void addQuestionId(String testId, String questionId) {
         // testId로 tests 조회
         Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
 
         // question 추가
         tests.addQuestion(questionId);
+        testRepository.save(tests);
+    }
+
+    public void completeTest(String testId) {
+        // testId로 tests 조회
+        Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
+
+        // complete 세팅
+        tests.setComplete(true);
         testRepository.save(tests);
     }
 }

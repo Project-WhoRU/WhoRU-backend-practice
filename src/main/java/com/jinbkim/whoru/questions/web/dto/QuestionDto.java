@@ -1,6 +1,7 @@
 package com.jinbkim.whoru.questions.web.dto;
 
 import com.jinbkim.whoru.questions.domain.question.Examples;
+import com.jinbkim.whoru.questions.domain.question.Question;
 import com.jinbkim.whoru.questions.domain.question.QuestionType;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Builder
@@ -24,4 +24,8 @@ public class QuestionDto {
     private Examples examples;
     @NotNull
     private String answer;
+
+    public QuestionDto() {
+        Examples examples = new Examples();
+    }
 }
