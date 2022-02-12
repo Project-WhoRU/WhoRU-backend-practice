@@ -2,7 +2,6 @@ package com.jinbkim.whoru.tests.service;
 
 import com.jinbkim.whoru.exception.customexceptions.AnswerSizeIsWrongException;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
-import com.jinbkim.whoru.exception.utils.ExceptionThrow;
 import com.jinbkim.whoru.questions.domain.question.Question;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.service.QuestionService;
@@ -64,6 +63,18 @@ public class TestService {
             .examples(question.getExamples())
             .answer(question.getAnswer())
             .build();
+    }
+
+    public FindTestPageResponseDto findTestPage(String testId, String page) {
+        TestFindResponseDto testFindResponseDto = findTest(testId);
+        QuestionDto question = findTest(testId).getQuestions().get(Integer.parseInt(page)-1);
+        Boolean isLastPage = Boolean.FALSE;
+
+        // 테스트의 질문 페이지가 마지막 이면
+        if (Integer.parseInt(page) == testFindResponseDto.getQuestions().size())
+            isLastPage = Boolean.TRUE;
+
+        return new FindTestPageResponseDto(question, isLastPage);
     }
 
     public TestGradeResponseDto gradeTest(TestGradeRequestDto testGradeRequestDto) {

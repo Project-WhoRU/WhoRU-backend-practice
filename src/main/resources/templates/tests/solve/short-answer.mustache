@@ -1,0 +1,53 @@
+{{>layout/header}}
+
+<div class="mx-auto" style="width: 500px;">
+  <form method="post" action="/api/grade-result/add-answer">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">{{page}}/{{lastPage}}</h5>
+        </div>
+
+        <div class="modal-body">
+          <p>{{question.question}}</p>
+
+          <div class="form-group">
+            <label for="answer">정답</label>
+            <input class="form-control" id="answer" name="answer">
+          </div>
+
+          <div class="modal-footer">
+            {{#prevPage}}
+              <button type="submit"
+                      name="button"
+                      value="before"
+                      class="btn btn-secondary">이전 문제
+              </button>
+            {{/prevPage}}
+            {{#nextPage}}
+              <button type="submit"
+                      name="button"
+                      value="next"
+                      class="btn btn-primary">다음 문제
+              </button>
+            {{/nextPage}}
+            {{#isLastPage}}
+              <button type="submit"
+                      name="button"
+                      value="submit"
+                      class="btn btn-primary">제출
+              </button>
+            {{/isLastPage}}
+          </div>
+
+          <input type="hidden" name="page" value="{{page}}">
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+{{>layout/footer}}

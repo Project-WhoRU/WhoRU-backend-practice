@@ -1,0 +1,34 @@
+{{>layout/header}}
+
+<div class="mx-auto" style="width: 500px;">
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">WhoRU: 내가 누구게?</h1>
+
+    <div class="jumbotron">
+      <p>출제자 : {{gradeResult.requestNickname}}</p>
+      <p>응시자 : {{gradeResult.responseNickname}}</p>
+      <p>문제수 : {{gradeResult.questionsCount}}</p>
+      <p>맞춘수 : {{gradeResult.answersCount}}</p>
+    </div>
+
+    <input type="hidden" id="gradeResultId" name="gradeResultId" value="{{gradeResult.id}}">
+    <a href="/" role="button" class="btn btn-lg btn-secondary">문제 만들러 가기</a>
+    <a href="#" onclick="copyLink()" role="button" class="btn btn-lg btn-primary">결과 공유링크 복사하기</a>
+
+  </main>
+</div>
+
+<script>
+  function copyLink() {
+    let textarea = document.createElement("textarea");
+    document.body.appendChild(textarea);
+    let gradeResultId = document.getElementById("gradeResultId").value;
+    textarea.value = "http://localhost:8080/api/grade-result/grade-result/" + gradeResultId;
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    alert("링크가 복사 되었습니다.");
+  }
+</script>
+
+{{>layout/footer}}

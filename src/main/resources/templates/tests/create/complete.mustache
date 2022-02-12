@@ -4,13 +4,10 @@
   <main role="main" class="inner cover">
     <h1 class="cover-heading">WhoRU: 내가 누구게?</h1>
     <div class="lead">질문지 생성이 완료되었습니다. 친구들에게 공유 해주세요!</div> <br>
+    <input type="hidden" id="testId" value="{{testId}}">
     <div class="lead">
-      <input type="hidden" id="testId" value="{{testId}}">
       <a href="#" role="button" onclick="copyLink()" class="btn btn-lg btn-secondary">링크 복사하기</a>
       <a href="/" role="button" class="btn btn-lg btn-primary">처음으로</a>
-
-    </div>
-    <div class="lead">
     </div>
   </main>
 </div>
@@ -20,7 +17,7 @@
     let textarea = document.createElement("textarea");
     document.body.appendChild(textarea);
     let testId = document.getElementById("testId").value;
-    textarea.value = "http://localhost:8080/solve/" + testId;
+    textarea.value = "http://localhost:8080/solve/test/start/" + testId;
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);

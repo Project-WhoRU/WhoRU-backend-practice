@@ -5,15 +5,13 @@ import com.jinbkim.whoru.questions.domain.question.Question;
 import com.jinbkim.whoru.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
-
-    public QuestionService(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
-    }
 
     public String addQuestion(QuestionDto QuestionDto) {
         // db에 질문지 저장

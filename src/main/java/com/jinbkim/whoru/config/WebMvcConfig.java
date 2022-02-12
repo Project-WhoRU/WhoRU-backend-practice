@@ -1,4 +1,4 @@
-package com.jinbkim.whoru.views.config;
+package com.jinbkim.whoru.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -16,11 +16,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/question-type/short-answer").setViewName("tests/create/short-answer");
         registry.addViewController("/question-type/ox").setViewName("tests/create/ox");
         registry.addViewController("/complete").setViewName("tests/create/complete");
-        registry.addViewController("/solve").setViewName("tests/solve/index");
+        registry.addViewController("/solve/test/start").setViewName("tests/solve/index");
+        registry.addViewController("/solve/nickname").setViewName("tests/solve/set-nickname");
+        registry.addViewController("/solve/grade").setViewName("tests/solve/complete");
+        registry.addViewController("/solve/grade-result").setViewName("tests/solve/grade-result");
 
-//        registry.addViewController("/tests/create").setViewName("tests/create/tests-create");
-//        registry.addViewController("/tests/create/multiple-choice").setViewName("/tests/create/multiple-choice");
-//        registry.addViewController("/tests/create/short-answer").setViewName("/tests/create/short-answer");
-//        registry.addViewController("/tests/create/ox").setViewName("/tests/create/ox");
     }
 }
