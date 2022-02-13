@@ -4,10 +4,9 @@ import com.jinbkim.whoru.graderesult.domain.GradeResult;
 import com.jinbkim.whoru.graderesult.service.GradeResultService;
 import com.jinbkim.whoru.tests.service.TestService;
 import com.jinbkim.whoru.tests.web.dto.TestFindResponseDto;
-import com.jinbkim.whoru.tests.web.dto.TestSetNicknameRequestDto;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class GradeResultController {
     private final GradeResultService gradeResultService;
     private final TestService testService;
+    @Value("${domain-address}")
+    private String domainAddress;
 
     @PostMapping("/set-nickname")
-    public String setNickname(String nickname, HttpSession httpSession) {
+    public String setNickname(String nickname, HttpSession httpSession, RedirectAttributes redirectAttribute) {
         String gradeResultId = (String)httpSession.getAttribute("gradeResultId");
-        String testId = (String)httpSession.getAttribute("testId");
+        redirectAttribute.addFlashAttribute("domain-address", domainAddress);
 
         gradeResultService.setNickname(gradeResultId, nickname);
         return "redirect:/solve/question/1";
@@ -53,6 +54,7 @@ public class GradeResultController {
     public String gradeTest(HttpSession httpSession, RedirectAttributes redirectAttribute) {
         String gradeResultId = (String)httpSession.getAttribute("gradeResultId");
         String testId = (String)httpSession.getAttribute("testId");
+        redirectAttribute.addFlashAttribute("domain-address", domainAddress);
 
         GradeResult gradeResult = gradeResultService.gradeTest(gradeResultId);
         redirectAttribute.addFlashAttribute("gradeResult", gradeResult);

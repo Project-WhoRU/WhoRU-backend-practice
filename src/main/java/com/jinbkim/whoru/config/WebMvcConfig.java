@@ -12,10 +12,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("tests/create/index");
         registry.addViewController("/nickname").setViewName("tests/create/set-nickname");
         registry.addViewController("/question-type").setViewName("tests/create/select-question-type");
-        registry.addViewController("/question-type/multiple-choice").setViewName("tests/create/multiple-choice");
-        registry.addViewController("/question-type/short-answer").setViewName("tests/create/short-answer");
-        registry.addViewController("/question-type/ox").setViewName("tests/create/ox");
-        registry.addViewController("/complete").setViewName("tests/create/complete");
         registry.addViewController("/solve/test/start").setViewName("tests/solve/index");
         registry.addViewController("/solve/nickname").setViewName("tests/solve/set-nickname");
         registry.addViewController("/solve/grade").setViewName("tests/solve/complete");

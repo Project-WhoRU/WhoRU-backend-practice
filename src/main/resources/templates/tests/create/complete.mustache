@@ -17,7 +17,7 @@
     let textarea = document.createElement("textarea");
     document.body.appendChild(textarea);
     let testId = document.getElementById("testId").value;
-    textarea.value = "http://localhost:8080/solve/test/start/" + testId;
+    textarea.value = "http://" + "{{domain-address}}" + ":8080/solve/test/start/" + testId;
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);

@@ -3,6 +3,7 @@
 <div class="mx-auto" style="width: 500px;">
   <form method="post" action="/api/questions" onsubmit="return checkInput()">
     <input type="hidden" name="type" value="MULTIPLE_CHOICE">
+    <input type="hidden" name="domain-address" value={{domain-address}}>
 
     <div class="form-group">
       <label for="question">질문</label>

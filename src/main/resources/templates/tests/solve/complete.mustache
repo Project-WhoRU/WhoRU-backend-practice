@@ -23,7 +23,7 @@
     let textarea = document.createElement("textarea");
     document.body.appendChild(textarea);
     let gradeResultId = document.getElementById("gradeResultId").value;
-    textarea.value = "http://localhost:8080/api/grade-result/grade-result/" + gradeResultId;
+    textarea.value = "http://" + "{{domain-address}}" + ":8080/api/grade-result/grade-result/" + gradeResultId;
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);

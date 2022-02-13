@@ -2,7 +2,6 @@ package com.jinbkim.whoru.tests.web.controller;
 
 import com.jinbkim.whoru.exception.customexceptions.NotnullException;
 import com.jinbkim.whoru.graderesult.service.GradeResultService;
-import com.jinbkim.whoru.questions.domain.question.Question;
 import com.jinbkim.whoru.questions.domain.question.QuestionType;
 import com.jinbkim.whoru.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.tests.service.TestService;
@@ -12,6 +11,7 @@ import com.jinbkim.whoru.tests.web.dto.TestSetNicknameRequestDto;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,14 +25,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TestController {
     private final TestService testService;
     private final GradeResultService gradeResultService;
+    @Value("${domain-address}")
+    private String domainAddress;
 
     @PostMapping("/set-nickname")
-    public String setNickname(@Valid TestSetNicknameRequestDto testSetNicknameRequestDto, BindingResult bindingResult, HttpSession httpSession) {
+    public String setNickname(@Valid TestSetNicknameRequestDto testSetNicknameRequestDto, BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors())
             throw new NotnullException(bindingResult);
         try {
             String testId = testService.setNickname(testSetNicknameRequestDto);
             httpSession.setAttribute("testId", testId);
+            redirectAttributes.addFlashAttribute("domain-address", domainAddress);
             return "redirect:/question-type";
         }
         catch (NotnullException e) {
@@ -64,6 +67,8 @@ public class TestController {
         model.addAttribute("question", question);
         model.addAttribute("page", page);
         model.addAttribute("lastPage", lastPage);
+        model.addAttribute("domain-address", domainAddress);
+
         if (Integer.parseInt(page) != 1)  // 이전 페이지가 존재하면
             model.addAttribute("prevPage", Integer.parseInt(page)-1);
         if (isLastPage) // 마지막 페이지 이면
