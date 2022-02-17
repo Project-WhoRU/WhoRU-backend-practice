@@ -1,24 +1,5 @@
 package com.jinbkim.whoru.tests;
 
-import com.jinbkim.whoru.questions.repository.QuestionRepository;
-import com.jinbkim.whoru.questions.web.dto.QuestionDto;
-import com.jinbkim.whoru.tests.domain.Tests;
-import com.jinbkim.whoru.tests.dto.TestAddRequestDtoCorrect;
-import com.jinbkim.whoru.tests.dto.TestAddRequestDtoNoNickname;
-import com.jinbkim.whoru.tests.dto.TestAddRequestDtoWrongQuestions;
-import com.jinbkim.whoru.tests.repository.TestRepository;
-import com.jinbkim.whoru.tests.service.TestService;
-import com.jinbkim.whoru.tests.web.dto.TestAddRequestDto;
-import com.jinbkim.whoru.tests.web.dto.TestAddResponseDto;
-import com.jinbkim.whoru.tests.web.dto.TestFindResponseDto;
-import com.jinbkim.whoru.tests.web.dto.TestGradeRequestDto;
-import com.jinbkim.whoru.tests.web.dto.TestGradeResponseDto;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest

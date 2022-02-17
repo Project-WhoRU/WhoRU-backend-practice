@@ -1,6 +1,6 @@
 package com.jinbkim.whoru.exception.customvalidator;
 
-import com.jinbkim.whoru.tests.domain.Tests;
+import com.jinbkim.whoru.contents.tests.domain.Tests;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;

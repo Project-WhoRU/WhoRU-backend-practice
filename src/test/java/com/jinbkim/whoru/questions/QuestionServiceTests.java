@@ -1,14 +1,12 @@
 package com.jinbkim.whoru.questions;
 
-import com.jinbkim.whoru.questions.domain.question.Question;
-import com.jinbkim.whoru.questions.dto.QuestionDtoCorrect;
 import com.jinbkim.whoru.questions.dto.QuestionDtoMultipleChoiceNoExamples;
 import com.jinbkim.whoru.questions.dto.QuestionDtoNoAnswer;
 import com.jinbkim.whoru.questions.dto.QuestionDtoNoQuestion;
 import com.jinbkim.whoru.questions.dto.QuestionDtoNoType;
-import com.jinbkim.whoru.questions.repository.QuestionRepository;
-import com.jinbkim.whoru.questions.service.QuestionService;
-import com.jinbkim.whoru.questions.web.dto.QuestionDto;
+import com.jinbkim.whoru.contents.questions.repository.QuestionRepository;
+import com.jinbkim.whoru.contents.questions.service.QuestionService;
+import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

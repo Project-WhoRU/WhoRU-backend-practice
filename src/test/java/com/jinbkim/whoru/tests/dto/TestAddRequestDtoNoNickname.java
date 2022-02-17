@@ -1,8 +1,8 @@
 package com.jinbkim.whoru.tests.dto;
 
 import com.jinbkim.whoru.questions.dto.QuestionDtoCorrect;
-import com.jinbkim.whoru.questions.web.dto.QuestionDto;
-import com.jinbkim.whoru.tests.web.dto.TestAddRequestDto;
+import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
+import com.jinbkim.whoru.contents.tests.web.dto.TestAddRequestDto;
 import java.util.ArrayList;
 import java.util.Arrays;
 

@@ -1,8 +1,7 @@
 package com.jinbkim.whoru.exception.customvalidator;
 
-import com.jinbkim.whoru.exception.error.ErrorCode;
-import com.jinbkim.whoru.questions.domain.question.Question;
-import com.jinbkim.whoru.questions.domain.question.QuestionType;
+import com.jinbkim.whoru.contents.questions.domain.question.Question;
+import com.jinbkim.whoru.contents.questions.domain.question.QuestionType;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
