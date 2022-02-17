@@ -1,7 +1,7 @@
 {{>layout/header}}
 
 <div class="mx-auto" style="width: 500px;">
-  <form method="post" action="/api/questions" onsubmit="return checkInput()">
+  <form method="post" action="/create/questions" onsubmit="return checkInput()">
     <input type="hidden" name="type" value="MULTIPLE_CHOICE">
     <input type="hidden" name="domain-address" value={{domain-address}}>
 
@@ -40,7 +40,7 @@
 
     <a href="/question-type" role="button" class="btn btn-secondary">뒤로 가기</a>
     <button type="submit" class="btn btn-success">다음 문제 만들기</button>
-    <button type="submit" formaction="/api/questions/complete" class="btn btn-primary">문제 완성</button>
+    <button type="submit" formaction="/create/questions/complete" class="btn btn-primary">문제 완성</button>
   </form>
 </div>
 
