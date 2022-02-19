@@ -1,10 +1,13 @@
 package com.jinbkim.whoru.contents.tests.web.controller;
 
 import com.jinbkim.whoru.contents.questions.service.QuestionService;
+import com.jinbkim.whoru.contents.tests.domain.Tests;
+import com.jinbkim.whoru.contents.tests.repository.TestRepository;
 import com.jinbkim.whoru.contents.tests.web.dto.TestSetNicknameRequestDto;
 import com.jinbkim.whoru.exception.customexceptions.NotnullException;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.tests.service.TestService;
+import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CreateTestController {
     private final TestService testService;
     private final QuestionService questionService;
+    private final TestRepository testRepository;
     @Value("${domain-address}")
     private String domainAddress;
 
@@ -58,13 +62,17 @@ public class CreateTestController {
     @PostMapping("/questions/complete")
     public String questionsComplete(@Valid QuestionDto questionDto, HttpSession httpSession, Model model) {
         String questionId = questionService.addQuestion(questionDto);
+
         String testId = (String) httpSession.getAttribute("testId");
+        Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
+        tests.setComplete(Boolean.TRUE);
+        testRepository.save(tests);
+
         model.addAttribute("domain-address", domainAddress);
         model.addAttribute("testId", testId);
 
         testService.addQuestionId(testId, questionId);
         testService.completeTest(testId);
-        httpSession.invalidate();
         return "tests/create/complete";
     }
 }

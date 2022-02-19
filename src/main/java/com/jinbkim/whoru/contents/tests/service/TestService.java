@@ -2,7 +2,6 @@ package com.jinbkim.whoru.contents.tests.service;
 
 import com.jinbkim.whoru.contents.questions.domain.question.Question;
 import com.jinbkim.whoru.contents.questions.repository.QuestionRepository;
-import com.jinbkim.whoru.contents.questions.service.QuestionService;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.repository.TestRepository;
@@ -24,7 +23,6 @@ import java.util.*;
 public class TestService {
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
-    private final QuestionService questionService;
 
 //    public TestAddResponseDto addTest(TestAddRequestDto testAddRequestDto){
 //        // questId 구하기

@@ -15,7 +15,7 @@ public class Tests {
     private String id;
     private String nickname;
     private List<String> questionIds = new ArrayList<>();;
-    private Boolean complete= false;
+    private Boolean complete = new Boolean(false);
 
     @Builder
     Tests(String nickname) {
