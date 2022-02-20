@@ -142,4 +142,10 @@ public class TestService {
         tests.setComplete(true);
         testRepository.save(tests);
     }
+
+    public String validateNicknameDuplicate(String nickname) {
+        if (testRepository.existsByNickname(nickname))
+            return "duplicate";
+        return null;
+    }
 }

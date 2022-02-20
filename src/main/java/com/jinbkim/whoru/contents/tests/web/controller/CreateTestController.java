@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,14 +33,14 @@ public class CreateTestController {
     private String domainAddress;
 
     @PostMapping("/nickname")
-    public String requesterNicknameSet(@Valid TestSetNicknameRequestDto testSetNicknameRequestDto, BindingResult bindingResult, HttpSession httpSession, Model model) {
+    public String requesterNicknameSet(@Valid TestSetNicknameRequestDto testSetNicknameRequestDto, BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors())
             throw new NotnullException(bindingResult);
         try {
             String testId = testService.setNickname(testSetNicknameRequestDto);
             httpSession.setAttribute("testId", testId);
-            model.addAttribute("domain-address", domainAddress);
-            return "tests/create/select-question-type";
+            redirectAttributes.addAttribute("domain-address", domainAddress);
+            return "redirect:/create/questions/question-type";
         }
         catch (NotnullException e) {
             throw new NotnullException(e.getErrors());
@@ -50,7 +52,7 @@ public class CreateTestController {
         String questionId = questionService.addQuestion(questionDto);
         String testId = (String) httpSession.getAttribute("testId");
         testService.addQuestionId(testId, questionId);
-        return "tests/create/select-question-type";
+        return "redirect:/create/questions/question-type";
     }
 
     @GetMapping("/questions/question-type/{type}")
@@ -74,5 +76,11 @@ public class CreateTestController {
         testService.addQuestionId(testId, questionId);
         testService.completeTest(testId);
         return "tests/create/complete";
+    }
+
+    @PostMapping("/validate/nickname")
+    @ResponseBody
+    public String nicknameValidate(String nickname) {
+        return testService.validateNicknameDuplicate(nickname);
     }
 }

@@ -19,6 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("tests/create/index");
         registry.addViewController("/create/tests/init").setViewName("tests/create/set-nickname");
+        registry.addViewController("/create/questions/question-type").setViewName("tests/create/select-question-type");
         registry.addViewController("/solve/tests/init").setViewName("tests/solve/set-nickname");
         registry.addViewController("/error/create-test-complete").setViewName("error/create-test-complete");
     }
