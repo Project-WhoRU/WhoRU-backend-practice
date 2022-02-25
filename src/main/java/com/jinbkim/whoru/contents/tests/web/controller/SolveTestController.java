@@ -6,6 +6,7 @@ import com.jinbkim.whoru.contents.questions.domain.question.QuestionType;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.tests.service.TestService;
 import com.jinbkim.whoru.contents.tests.web.dto.FindTestPageResponseDto;
+import com.jinbkim.whoru.contents.tests.web.dto.ReadTestByNicknameRequestDto;
 import com.jinbkim.whoru.contents.tests.web.dto.TestFindResponseDto;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -116,5 +117,13 @@ public class SolveTestController {
 
         httpSession.invalidate();
         return "tests/solve/grade-result";
+    }
+
+    @PostMapping("read/nickname")
+    public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
+        String testId = this.testService.findTestIdByNickname(readTestByNicknameRequestDto.getNicknameSearch());
+        if (testId == null)
+            return "error/404";
+        return "redirect:/solve/tests/index/" + testId;
     }
 }

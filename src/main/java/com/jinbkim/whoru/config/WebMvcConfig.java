@@ -5,7 +5,6 @@ import com.jinbkim.whoru.intercepter.CreateTestCompleteInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/create/tests/init").setViewName("tests/create/set-nickname");
         registry.addViewController("/create/questions/question-type").setViewName("tests/create/select-question-type");
         registry.addViewController("/solve/tests/init").setViewName("tests/solve/set-nickname");
-        registry.addViewController("/error/create-test-complete").setViewName("error/create-test-complete");
+        registry.addViewController("/error/404").setViewName("error/404");
     }
 
     @Override

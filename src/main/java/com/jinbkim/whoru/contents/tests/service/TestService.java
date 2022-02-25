@@ -79,6 +79,13 @@ public class TestService {
         return new FindTestPageResponseDto(question, isLastPage);
     }
 
+    public String findTestIdByNickname(String nickname) {
+        Tests tests = testRepository.findByNickname(nickname);
+        if (tests == null)
+            return null;
+        return tests.getId();
+    }
+
     public TestGradeResponseDto gradeTest(TestGradeRequestDto testGradeRequestDto) {
         // testId로 tests 조회
         Tests tests = testRepository.findById(testGradeRequestDto.getTestId()).orElseThrow(TestDoesntExistException::new);

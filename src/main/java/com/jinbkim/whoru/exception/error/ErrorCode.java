@@ -12,6 +12,7 @@ public enum ErrorCode {
     ANSWER_SIZE_IS_WRONG(400, "문제의 수와 제출한 정답의 수가 다릅니다"),
     GRADE_RESULT_DOESNT_EXIST(404, "채점 결과를 조회할 수 없습니다"),
     QUESTION_DOESNT_EXIST(404, "문제를 조회할 수 없습니다");
+
     private int status;
     private String message;
 }

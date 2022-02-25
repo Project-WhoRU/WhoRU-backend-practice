@@ -19,7 +19,7 @@ public class CreateTestCompleteInterceptor extends HandlerInterceptorAdapter {
         String testId = (String)request.getSession().getAttribute("testId");
         Tests tests = testRepository.findById(testId).orElseThrow(TestDoesntExistException::new);
         if (tests.getComplete() == Boolean.TRUE)
-            response.sendRedirect(request.getContextPath()+"/error/create-test-complete");
+            response.sendRedirect(request.getContextPath()+"/error/404");
         return true;
     }
 }
