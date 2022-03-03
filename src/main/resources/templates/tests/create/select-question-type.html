@@ -1,4 +1,4 @@
-{{>layout/header}}
+<div th:replace="~{layout/header :: header}"></div>
 
 <div class="mx-auto" style="width: 500px;">
   <a href="/create/questions/question-type/multiple-choice" role="button" class="btn btn-outline-success btn-lg btn-block">객관식 문제</a>
@@ -6,4 +6,4 @@
   <a href="/create/questions/question-type/ox" role="button" class="btn btn-outline-info btn-lg btn-block">ox 문제</a>
 </div>
 
-{{>layout/footer}}
+<div th:replace="~{layout/footer :: footer}"></div>

@@ -10,13 +10,13 @@ import org.springframework.data.annotation.Id;
 public class Question {
     @Id
     private String id;
-    private QuestionType type;
+    private String type;
     private String question;
     private Examples examples;
     private String answer;
 
     @Builder
-    public Question(QuestionType type, String question, Examples examples, String answer) {
+    public Question(String type, String question, Examples examples, String answer) {
         this.type = type;
         this.question = question;
         this.examples = examples;

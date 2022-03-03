@@ -1,0 +1,25 @@
+<div th:fragment="solveQuestionButton">
+  <div class="modal-footer">
+    <th:block th:if="${prevPage}">
+      <button type="submit"
+              name="button"
+              value="before"
+              class="btn btn-secondary" th:text="#{question.before-question}">
+      </button>
+    </th:block>
+    <th:block th:if="${nextPage}">
+      <button type="submit"
+              name="button"
+              value="next"
+              class="btn btn-primary" th:text="#{question.next-question}">
+      </button>
+    </th:block>
+    <th:block th:if="${isLastPage}">
+      <button type="submit"
+              name="button"
+              value="submit"
+              class="btn btn-primary" th:text="#{question.submit}">
+      </button>
+    </th:block>
+  </div>
+</div>

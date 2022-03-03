@@ -26,6 +26,9 @@ dependencies {
 	implementation('ch.qos.logback:logback-classic')
 	implementation('org.springframework.boot:spring-boot-starter-mustache')
 	implementation 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 }
 
 test {

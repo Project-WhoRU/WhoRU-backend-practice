@@ -21,7 +21,7 @@ public class QuestionService {
             .examples(QuestionDto.getExamples())
             .answer(QuestionDto.getAnswer())
             .build();
-        ExceptionThrow.exceptionThrow(question, "question");
+//        ExceptionThrow.exceptionThrow(question, "question");
         questionRepository.save(question);
 
         // questionId 반환

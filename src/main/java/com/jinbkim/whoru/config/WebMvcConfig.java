@@ -1,7 +1,6 @@
 package com.jinbkim.whoru.config;
 
-import com.jinbkim.whoru.contents.tests.repository.TestRepository;
-import com.jinbkim.whoru.intercepter.CreateTestCompleteInterceptor;
+import com.jinbkim.whoru.intercepter.LoginInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -12,20 +11,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private final TestRepository testRepository;
+//    private final TestRepository testRepository;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("tests/create/index");
-        registry.addViewController("/create/tests/init").setViewName("tests/create/set-nickname");
         registry.addViewController("/create/questions/question-type").setViewName("tests/create/select-question-type");
-        registry.addViewController("/solve/tests/init").setViewName("tests/solve/set-nickname");
-        registry.addViewController("/error/404").setViewName("error/404");
+//        registry.addViewController("/error/404").setViewName("error/404");
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new CreateTestCompleteInterceptor(testRepository))
-            .addPathPatterns("/create/questions/**");
+        registry.addInterceptor(new LoginInterceptor())
+            .addPathPatterns("/create/**");
     }
 }

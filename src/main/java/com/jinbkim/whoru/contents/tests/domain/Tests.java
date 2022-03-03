@@ -13,13 +13,12 @@ import java.util.List;
 public class Tests {
     @Id
     private String id;
-    private String nickname;
-    private List<String> questionIds = new ArrayList<>();;
-    private Boolean complete = new Boolean(false);
+    private List<String> questionIds;
+    private Boolean complete;
 
-    @Builder
-    Tests(String nickname) {
-        this.nickname = nickname;
+    public Tests() {
+        questionIds = new ArrayList<>();
+        complete = new Boolean(false);
     }
 
     public void addQuestion(String questionId) {

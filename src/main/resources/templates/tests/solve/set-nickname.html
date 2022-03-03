@@ -1,0 +1,15 @@
+<div th:replace="~{layout/header :: header}"></div>
+
+<div class="mx-auto" style="width: 500px;" th:object="${nickname}">
+  <form method="post" action="/solve/nickname">
+    <div class="form-group">
+      <label for="nickname" th:text="#{set-user.nickname}"></label>
+      <input type="text" th:errorclass="field-error" class="form-control" id="nickname" th:field="*{nickname}">
+    </div>
+    <div class="field-error" th:errors="*{nickname}"></div>
+
+    <button type="submit" class="btn btn-primary" th:text="#{set-user.start}"></button>
+  </form>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>

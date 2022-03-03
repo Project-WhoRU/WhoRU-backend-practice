@@ -33,6 +33,13 @@ public class GradeResultService {
     }
 
     public void setNickname(String gradeResultId, String nickname) {
+//        System.out.println("grade Id : " + gradeResultId);
+//        List<GradeResult> all = gradeResultRepository.findAll();
+//        for (GradeResult gradeResult : all) {
+//            System.out.println("id : " + gradeResult.getId());
+//        }
+
+
         // gradeResultI로 gradeResult 조회
         GradeResult gradeResult = gradeResultRepository.findById(gradeResultId).orElseThrow(GradeResultDoesntExistException::new);
 
@@ -54,7 +61,7 @@ public class GradeResultService {
         gradeResultRepository.save(gradeResult);
     }
 
-    public GradeResult gradeTest(String gradeResultId) {
+    public GradeResult gradeTest(String gradeResultId, String requesterNickname) {
         // gradeResultI로 gradeResult 조회
         GradeResult gradeResult = gradeResultRepository.findById(gradeResultId).orElseThrow(GradeResultDoesntExistException::new);
         List<String> answerList = gradeResult.getAnswerSubmit();
@@ -79,7 +86,8 @@ public class GradeResultService {
         }
         gradeResult.setAnswersCount(answerCount);
         gradeResult.setGradeResult(result);
-        gradeResult.setRequestNickname(tests.getNickname());
+
+        gradeResult.setRequestNickname(requesterNickname);
         gradeResultRepository.save(gradeResult);
         return gradeResult;
     }

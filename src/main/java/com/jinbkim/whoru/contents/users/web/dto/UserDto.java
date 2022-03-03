@@ -1,14 +1,17 @@
-package com.jinbkim.whoru.contents.tests.web.dto;
+package com.jinbkim.whoru.contents.users.web.dto;
 
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
-public class TestSetNicknameRequestDto {
+@NoArgsConstructor
+public class UserDto {
     @NotBlank
     private String nickname;
+    @NotBlank
+    private String password;
+    private String testId;
 }

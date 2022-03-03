@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class TestFindResponseDto {
     private String nickname;
     private List<QuestionDto> questions;

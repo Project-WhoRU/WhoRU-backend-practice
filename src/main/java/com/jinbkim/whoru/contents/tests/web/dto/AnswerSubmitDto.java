@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
-public class TestSetNicknameRequestDto {
+@NoArgsConstructor
+public class AnswerSubmitDto {
     @NotBlank
-    private String nickname;
+    private String answer;
 }

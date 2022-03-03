@@ -1,8 +1,8 @@
 package com.jinbkim.whoru.contents.questions.web.dto;
 
 import com.jinbkim.whoru.contents.questions.domain.question.Examples;
-import com.jinbkim.whoru.contents.questions.domain.question.QuestionType;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,12 +13,12 @@ import lombok.Setter;
 @Setter
 @Builder
 public class QuestionDto {
-    @NotNull
-    private QuestionType type;
-    @NotNull
+    @NotBlank
+    private String type;
+    @NotBlank
     private String question;
     private Examples examples;
-    @NotNull
+    @NotBlank
     private String answer;
 
     public QuestionDto() {

@@ -1,1 +1,4 @@
-.nickname_duplicate{color:#FF0000; display: none;}
+.field-error {
+  border-color: #dc3545;
+  color: #dc3545;
+}
