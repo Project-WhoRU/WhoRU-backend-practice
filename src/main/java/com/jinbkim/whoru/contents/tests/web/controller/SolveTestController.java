@@ -42,7 +42,6 @@ public class SolveTestController {
         httpSession.setAttribute("gradeResultId", gradeResultId);
         httpSession.setAttribute("lastPage", tests.getQuestionIds().size());
         httpSession.setAttribute("requesterNickname", nickname);
-        model.addAttribute("nickname", nickname);
         return "/tests/solve/index";
     }
 
@@ -136,8 +135,6 @@ public class SolveTestController {
     public String gradeTestResult(@PathVariable String id, HttpSession httpSession, Model model) {
         GradeResult gradeResult = gradeResultService.findGradeResult(id);
         model.addAttribute("gradeResult", gradeResult);
-
-        httpSession.invalidate();
         return "tests/solve/grade-result";
     }
 

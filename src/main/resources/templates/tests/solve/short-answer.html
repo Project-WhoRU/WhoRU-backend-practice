@@ -1,4 +1,4 @@
-<div th:replace="~{layout/header :: header}"></div>
+<div th:replace="~{layout/header ::header(|/solve/tests/index/${session.requesterNickname}|)}"></div>
 
 <div class="mx-auto" style="width: 500px;">
   <form method="post" action="/solve/questions/answer" th:object="${answerSubmit}">
