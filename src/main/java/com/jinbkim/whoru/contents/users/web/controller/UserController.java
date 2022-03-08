@@ -1,6 +1,6 @@
 package com.jinbkim.whoru.contents.users.web.controller;
 
-import com.jinbkim.whoru.config.SessionConst;
+import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.service.TestService;
 import com.jinbkim.whoru.contents.users.domain.Users;
@@ -49,7 +49,7 @@ public class UserController {
         Tests tests = this.testService.addTest();
         Users users = this.userService.addUser(user, tests);
 
-        httpSession.setAttribute(SessionConst.LOGIN_USER, users);
+        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
         return "redirect:/create/questions/question-type";
     }
 }

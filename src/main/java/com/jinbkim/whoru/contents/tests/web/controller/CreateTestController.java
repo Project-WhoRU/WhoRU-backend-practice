@@ -1,6 +1,6 @@
 package com.jinbkim.whoru.contents.tests.web.controller;
 
-import com.jinbkim.whoru.config.SessionConst;
+import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.questions.service.QuestionService;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.repository.TestRepository;
@@ -64,7 +64,7 @@ public class CreateTestController {
             return "tests/create/" + questionDto.getType();
 
         String questionId = questionService.addQuestion(questionDto);
-        Users users = (Users) httpSession.getAttribute(SessionConst.LOGIN_USER);
+        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
         testService.addQuestionId(users.getTestId(), questionId);
         return "redirect:/create/questions/question-type";
     }
@@ -79,7 +79,7 @@ public class CreateTestController {
     @PostMapping("/questions/complete")
     public String questionsComplete(@Valid QuestionDto questionDto, HttpSession httpSession, Model model, HttpServletRequest httpServletRequest) {
         String questionId = questionService.addQuestion(questionDto);
-        Users users = (Users) httpSession.getAttribute(SessionConst.LOGIN_USER);
+        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
         Tests tests = testRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
         tests.setComplete(Boolean.TRUE);
         testRepository.save(tests);
