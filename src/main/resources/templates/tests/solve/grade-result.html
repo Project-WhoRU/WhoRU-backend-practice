@@ -5,10 +5,10 @@
     <h1 class="cover-heading">WhoRU: 내가 누구게?</h1>
 
     <div class="jumbotron">
-      <p th:text="|출제자 : ${gradeResult.requestNickname}|"></p>
-      <p th:text="|응시자 : ${gradeResult.responseNickname}|"></p>
-      <p th:text="|문제수 : ${gradeResult.questionsCount}|"></p>
-      <p th:text="|맞춘수 : ${gradeResult.answersCount}|"></p>
+      <p th:text="|#{solve-complete.examiner} : ${gradeResult.requestNickname}|"></p>
+      <p th:text="|#{solve-complete.candidates}  : ${gradeResult.responseNickname}|"></p>
+      <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
+      <p th:text="|#{solve-complete.number-of-correct-questions}  : ${gradeResult.answersCount}|"></p>
     </div>
 
     <a href="/" role="button" class="btn btn-lg btn-secondary">문제 만들러 가기</a>

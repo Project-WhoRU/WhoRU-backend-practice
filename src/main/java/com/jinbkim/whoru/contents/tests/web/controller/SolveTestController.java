@@ -30,8 +30,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SolveTestController {
     private final TestService testService;
     private final GradeResultService gradeResultService;
-    @Value("${domain-address}")
-    private String domainAddress;
+//    @Value("${domain-address}")
+//    private String domainAddress;
 
     @GetMapping("/tests/index/{nickname}")
     public String testsSolveIndexPage(@PathVariable String nickname, Model model, HttpSession httpSession) {

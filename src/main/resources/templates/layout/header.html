@@ -3,11 +3,17 @@
   <html xmlns:th="http://www.thymeleaf.org">
   <html lang="kr">
   <head>
-        <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8">
     <title>WhoRU?</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link href="/css/style.css" rel="stylesheet">
@@ -25,9 +31,28 @@
         <form class="d-flex" method="POST" action="/solve/read/nickname">
           <input class="form-control" type="search" name="nicknameSearch"
                  id="nicknameSearch" th:placeholder="#{header.nickname-search}">
-          <button class="btn btn-outline-success" type="submit" th:text="#{header.nickname-search-button}"></button>
+          <button class="btn btn-outline-success" type="submit"
+                  th:text="#{header.nickname-search-button}"></button>
         </form>
       </div>
+
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                data-toggle="dropdown" aria-expanded="true" th:text="#{header.language}">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+
+          <form method="POST" action="/set/language">
+            <li role="presentation">
+              <a role="menuitem" tabindex="-1" href="/language?language=en">English</a></li>
+            </li>
+            <a role="menuitem" tabindex="-1" href="/language?language=ko">한국어</a></li>
+          </form>
+
+        </ul>
+      </div>
+
     </div>
   </nav>
 
