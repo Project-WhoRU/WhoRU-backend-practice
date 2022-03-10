@@ -1,12 +1,12 @@
 package com.jinbkim.whoru.contents.tests.web.controller;
-
 import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.questions.service.QuestionService;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.repository.TestRepository;
-import com.jinbkim.whoru.contents.users.domain.Users;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.tests.service.TestService;
+import com.jinbkim.whoru.contents.users.domain.UsersBucket;
+import com.jinbkim.whoru.contents.users.service.UserService;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import com.jinbkim.whoru.validator.QuestionValidator;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +34,7 @@ public class CreateTestController {
     private final QuestionService questionService;
     private final TestRepository testRepository;
     private final QuestionValidator questionValidator;
+    private final UserService userService;
 
     @InitBinder
     public void init(WebDataBinder dataBinder) {
@@ -64,7 +65,7 @@ public class CreateTestController {
             return "tests/create/" + questionDto.getType();
 
         String questionId = questionService.addQuestion(questionDto);
-        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        UsersBucket users = (UsersBucket) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
         testService.addQuestionId(users.getTestId(), questionId);
         return "redirect:/create/questions/question-type";
     }
@@ -79,7 +80,7 @@ public class CreateTestController {
     @PostMapping("/questions/complete")
     public String questionsComplete(@Valid QuestionDto questionDto, HttpSession httpSession, Model model, HttpServletRequest httpServletRequest) {
         String questionId = questionService.addQuestion(questionDto);
-        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        UsersBucket users = (UsersBucket) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
         Tests tests = testRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
         tests.setComplete(Boolean.TRUE);
         testRepository.save(tests);
@@ -89,6 +90,8 @@ public class CreateTestController {
 
         testService.addQuestionId(users.getTestId(), questionId);
         testService.completeTest(users.getTestId());
+        userService.addUser(users);
+
         return "tests/create/complete";
     }
 

@@ -12,7 +12,6 @@ import com.jinbkim.whoru.contents.tests.web.dto.TestSetNicknameRequestDto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -138,11 +137,11 @@ public class SolveTestController {
         return "tests/solve/grade-result";
     }
 
-    @PostMapping("read/nickname")
-    public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
-        String testId = this.testService.findTestIdByNickname(readTestByNicknameRequestDto.getNicknameSearch());
-        if (testId == null)
-            return "error/404";
-        return "redirect:/solve/tests/index/" + testId;
-    }
+//    @PostMapping("read/nickname")
+//    public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
+//        String testId = this.testService.findTestIdByNickname(readTestByNicknameRequestDto.getNicknameSearch());
+//        if (testId == null)
+//            return "404.html";
+//        return "redirect:/solve/tests/index/" + testId;
+//    }
 }

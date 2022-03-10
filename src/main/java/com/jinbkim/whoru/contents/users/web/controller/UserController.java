@@ -4,6 +4,7 @@ import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.service.TestService;
 import com.jinbkim.whoru.contents.users.domain.Users;
+import com.jinbkim.whoru.contents.users.domain.UsersBucket;
 import com.jinbkim.whoru.contents.users.service.UserService;
 import com.jinbkim.whoru.contents.users.web.dto.UserDto;
 import com.jinbkim.whoru.validator.UserValidator;
@@ -47,7 +48,7 @@ public class UserController {
             return "tests/create/set-user";
 
         Tests tests = this.testService.addTest();
-        Users users = this.userService.addUser(user, tests);
+        UsersBucket users = this.userService.addUserBucket(user, tests);
 
         httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
         return "redirect:/create/questions/question-type";
