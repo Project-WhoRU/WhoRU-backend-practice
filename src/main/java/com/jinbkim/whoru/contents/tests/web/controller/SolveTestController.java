@@ -137,11 +137,11 @@ public class SolveTestController {
         return "tests/solve/grade-result";
     }
 
-//    @PostMapping("read/nickname")
-//    public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
-//        String testId = this.testService.findTestIdByNickname(readTestByNicknameRequestDto.getNicknameSearch());
-//        if (testId == null)
-//            return "404.html";
-//        return "redirect:/solve/tests/index/" + testId;
-//    }
+    @PostMapping("read/nickname")
+    public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
+        Tests test = this.testService.findTest(readTestByNicknameRequestDto.getNicknameSearch());
+        if (test == null)
+            return "error/404";
+        return "redirect:/solve/tests/index/" + readTestByNicknameRequestDto.getNicknameSearch();
+    }
 }

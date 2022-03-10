@@ -39,6 +39,7 @@ public class UserService {
 
     public void addUser(UsersBucket usersBucket) {
         Users user = Users.builder()
+            .id(usersBucket.getId())
             .nickname(usersBucket.getNickname())
             .password(usersBucket.getPassword())
             .testId(usersBucket.getTestId())

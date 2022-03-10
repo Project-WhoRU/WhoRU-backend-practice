@@ -63,8 +63,9 @@ public class TestService {
 
     public Tests findTest(String nickname) {
         Users users = userRepository.findByNickname(nickname);
-        Tests tests = testRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
-
+        if (users == null)
+            return null;
+        Tests tests = testRepository.findById(users.getTestId()).orElseGet(null);
         return tests;
     }
 
@@ -82,12 +83,12 @@ public class TestService {
         return new FindTestPageResponseDto(question, isLastPage);
     }
 
-    public String findTestIdByNickname(String nickname) {
+//    public String findTestIdByNickname(String nickname) {
 //        Tests tests = testRepository.findByNickname(nickname);
 //        if (tests == null)
-            return null;
+//            return null;
 //        return tests.getId();
-    }
+//    }
 
 //    public TestGradeResponseDto gradeTest(TestGradeRequestDto testGradeRequestDto) {
 //        // testId로 tests 조회
