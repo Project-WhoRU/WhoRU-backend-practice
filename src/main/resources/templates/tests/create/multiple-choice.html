@@ -41,11 +41,8 @@
       </select>
     </div>
 
-    <a href="/create/questions/question-type" role="button" class="btn btn-secondary"
-       th:text="#{question.back}"></a>
-    <button type="submit" class="btn btn-success" th:text="#{question.next}"></button>
-    <button type="submit" formaction="/create/questions/complete" class="btn btn-primary"
-            th:text="#{question.complete}"></button>
+    <div th:replace="~{layout/createQuestionButton :: createQuestionButton}"></div>
+
   </form>
 </div>
 

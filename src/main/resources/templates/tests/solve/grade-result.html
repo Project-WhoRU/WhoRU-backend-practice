@@ -2,16 +2,11 @@
 
 <div class="mx-auto" style="width: 500px;">
   <main role="main" class="inner cover">
-    <h1 class="cover-heading">WhoRU: 내가 누구게?</h1>
+    <h1 class="cover-heading" th:text="#{solve-complete.title}"></h1>
 
-    <div class="jumbotron">
-      <p th:text="|#{solve-complete.examiner} : ${gradeResult.requestNickname}|"></p>
-      <p th:text="|#{solve-complete.candidates}  : ${gradeResult.responseNickname}|"></p>
-      <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
-      <p th:text="|#{solve-complete.number-of-correct-questions}  : ${gradeResult.answersCount}|"></p>
-    </div>
+    <div th:replace="~{layout/gradeResult:: gradeResult}"></div>
 
-    <a href="/" role="button" class="btn btn-lg btn-secondary">문제 만들러 가기</a>
+    <a href="/" role="button" class="btn btn-lg btn-secondary" th:text="#{solve-complete.make-test}"></a>
 
   </main>
 </div>
