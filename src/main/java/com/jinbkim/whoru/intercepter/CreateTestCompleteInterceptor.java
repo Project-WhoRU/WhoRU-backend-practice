@@ -3,7 +3,7 @@ package com.jinbkim.whoru.intercepter;
 import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.repository.TestRepository;
-import com.jinbkim.whoru.contents.users.domain.UsersBucket;
+import com.jinbkim.whoru.contents.users.domain.Users;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ public class CreateTestCompleteInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        UsersBucket users  = (UsersBucket)request.getSession().getAttribute(StaticFinalString.LOGIN_USER);
+        Users users  = (Users)request.getSession().getAttribute(StaticFinalString.LOGIN_USER);
         Tests tests = testRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
         if (tests.getComplete() == Boolean.TRUE) {
             response.sendRedirect("/error/404");

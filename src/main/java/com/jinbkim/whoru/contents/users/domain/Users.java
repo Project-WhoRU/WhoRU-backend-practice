@@ -1,17 +1,19 @@
 package com.jinbkim.whoru.contents.users.domain;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
+@NoArgsConstructor
 public class Users {
     @Id
-    private String id;
-    private String nickname;
-    private String password;
-    private String testId;
+    protected String id;
+    protected String nickname;
+    protected String password;
+    protected String testId;
 }

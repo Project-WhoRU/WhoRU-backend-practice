@@ -1,25 +1,24 @@
 <div th:replace="~{layout/header ::header('/')}"></div>
 
-<html xmlns:th="http://www.thymeleaf.org">
-
 <div class="mx-auto" style="width: 500px;">
-  <h1 th:text="#{set-user.login}"></h1> <br>
-  <form method="post" action="/users" name="create_nickname" th:object="${user}">
+  <h1 th:text="#{sign-up.login}"></h1> <br>
+  <form method="post" action="/users/login" th:object="${login}">
     <div class="form-group">
-      <label for="nickname" th:text="#{set-user.nickname}"></label>
+      <label for="nickname" th:text="#{sign-up.nickname}"></label>
       <input type="text" th:errorclass="field-error" class="form-control" id="nickname"
              th:field="*{nickname}">
       <div class="field-error" th:errors="*{nickname}"></div>
     </div>
     <div class="form-group">
-      <label for="password" th:text="#{set-user.password}"></label>
+      <label for="password" th:text="#{sign-up.password1}"></label>
       <input class="form-control" type="password" id="password" name="password" th:field="*{password}"
              th:errorclass="field-error">
       <div class="field-error" th:errors="*{password}"></div>
 
     </div>
-    <button type="submit" class="btn btn-primary" th:text="#{set-user.start}"></button>
+    <button type="submit" class="btn btn-primary" th:text="#{sign-up.login}"></button>
   </form>
+  <a href="/users/sign-up" th:text="#{sign-up.sign-up}">
 </div>
 
 <div th:replace="~{layout/footer :: footer}"></div>

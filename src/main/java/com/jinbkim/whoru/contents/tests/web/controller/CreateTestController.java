@@ -5,7 +5,8 @@ import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.repository.TestRepository;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.tests.service.TestService;
-import com.jinbkim.whoru.contents.users.domain.UsersBucket;
+import com.jinbkim.whoru.contents.users.domain.Users;
+import com.jinbkim.whoru.contents.users.domain.UsersImplement;
 import com.jinbkim.whoru.contents.users.service.UserService;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import com.jinbkim.whoru.validator.QuestionValidator;
@@ -65,7 +66,7 @@ public class CreateTestController {
             return "tests/create/" + questionDto.getType();
 
         String questionId = questionService.addQuestion(questionDto);
-        UsersBucket users = (UsersBucket) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
         testService.addQuestionId(users.getTestId(), questionId);
         return "redirect:/create/questions/question-type";
     }
@@ -73,14 +74,13 @@ public class CreateTestController {
     @GetMapping("/questions/question-type/{type}")
     public String questionsTypeView(@PathVariable String type, Model model) {
         model.addAttribute("question", new QuestionDto());
-//        model.addAttribute("domain-address", domainAddress);
         return "tests/create/"+type;
     }
 
     @PostMapping("/questions/complete")
     public String questionsComplete(@Valid QuestionDto questionDto, HttpSession httpSession, Model model, HttpServletRequest httpServletRequest) {
         String questionId = questionService.addQuestion(questionDto);
-        UsersBucket users = (UsersBucket) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
         Tests tests = testRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
         tests.setComplete(Boolean.TRUE);
         testRepository.save(tests);
@@ -100,4 +100,12 @@ public class CreateTestController {
     public String nicknameValidate(String nickname) {
         return testService.validateNicknameDuplicate(nickname);
     }
+
+//    @GetMapping("/tests/delete")
+//    public String deleteTests(HttpSession httpSession) {
+//        UsersImplement users = (UsersImplement) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+//        this.testService.deleteTests(users);
+//        return "redirect:/user/user-detail";
+//    }
+
 }

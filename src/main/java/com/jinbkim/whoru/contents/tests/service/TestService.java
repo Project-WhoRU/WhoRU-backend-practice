@@ -7,6 +7,7 @@ import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.repository.TestRepository;
 import com.jinbkim.whoru.contents.tests.web.dto.FindTestPageResponseDto;
 import com.jinbkim.whoru.contents.users.domain.Users;
+import com.jinbkim.whoru.contents.users.domain.UsersImplement;
 import com.jinbkim.whoru.contents.users.repository.UserRepository;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import java.util.stream.Collectors;
@@ -62,7 +63,7 @@ public class TestService {
     }
 
     public Tests findTest(String nickname) {
-        Users users = userRepository.findByNickname(nickname);
+        UsersImplement users = userRepository.findByNickname(nickname);
         if (users == null)
             return null;
         Tests tests = testRepository.findById(users.getTestId()).orElseGet(null);
@@ -167,4 +168,10 @@ public class TestService {
 //            return "duplicate";
         return null;
     }
+
+//    public void deleteTests(UsersImplement users) {
+//        this.testRepository.deleteById(users.getTestId());
+//        users.setTestId(null);
+//        this.userRepository.save(users);
+//    }
 }

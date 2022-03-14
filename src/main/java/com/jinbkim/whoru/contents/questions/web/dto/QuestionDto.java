@@ -1,7 +1,6 @@
 package com.jinbkim.whoru.contents.questions.web.dto;
 
 import com.jinbkim.whoru.contents.questions.domain.question.Examples;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -4,10 +4,13 @@ import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.service.TestService;
 import com.jinbkim.whoru.contents.users.domain.Users;
-import com.jinbkim.whoru.contents.users.domain.UsersBucket;
+import com.jinbkim.whoru.contents.users.domain.UsersImplement;
+import com.jinbkim.whoru.contents.users.repository.UserRepository;
 import com.jinbkim.whoru.contents.users.service.UserService;
-import com.jinbkim.whoru.contents.users.web.dto.UserDto;
-import com.jinbkim.whoru.validator.UserValidator;
+import com.jinbkim.whoru.contents.users.web.dto.LoginDto;
+import com.jinbkim.whoru.contents.users.web.dto.SignUpDto;
+import com.jinbkim.whoru.validator.LoginValidator;
+import com.jinbkim.whoru.validator.SignUpValidator;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,28 +32,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     private final UserService userService;
     private final TestService testService;
-    private final UserValidator userValidator;
+    private final SignUpValidator signUpValidator;
+    private final UserRepository userRepository;
+    private final LoginValidator loginValidator;
 
-    @InitBinder
-    public void init(WebDataBinder dataBinder) {
-        dataBinder.addValidators(userValidator);
+    @InitBinder("login")
+    public void initLoginDto(WebDataBinder dataBinder) {
+        dataBinder.addValidators(loginValidator);
     }
 
-    @GetMapping
-    public String setUser(Model model) {
-        model.addAttribute("user", new UserDto());
-        return "tests/create/set-user";
+    @InitBinder("signUp")
+    public void initSignUpDto(WebDataBinder dataBinder) {
+        dataBinder.addValidators(signUpValidator);
     }
 
-    @PostMapping
-    public String addUser(@Validated @ModelAttribute("user") UserDto user, BindingResult bindingResult, HttpSession httpSession) {
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("login", new LoginDto());
+        return "tests/create/login";
+    }
+
+    @PostMapping("/login")
+    public String login(@Validated @ModelAttribute("login") LoginDto loginDto, BindingResult bindingResult, HttpSession httpSession) {
         if (bindingResult.hasErrors())
-            return "tests/create/set-user";
+            return "tests/create/login";
+        UsersImplement users = userRepository.findByNickname(loginDto.getNickname());
+        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
+        return "redirect:/users/detail";
+    }
+
+    @GetMapping("/sign-up")
+    public String signUp(Model model) {
+        model.addAttribute("signUp", new SignUpDto());
+        return "tests/create/sign-up";
+    }
+
+    @PostMapping("/sign-up")
+    public String signUp(@Validated @ModelAttribute("signUp") SignUpDto signUpDto , BindingResult bindingResult, HttpSession httpSession) {
+        if (bindingResult.hasErrors())
+            return "tests/create/sign-up";
 
         Tests tests = this.testService.addTest();
-        UsersBucket users = this.userService.addUserBucket(user, tests);
+        Users users = this.userService.addUserBucket(signUpDto, tests);
 
         httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
         return "redirect:/create/questions/question-type";
     }
+
+//    @GetMapping("/detail")
+//    public String userDetail(Model model, HttpSession httpSession) {
+//        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+//
+//        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
+//        if (users.getTestId() == null)
+//            model.addAttribute("textEmpty", true);
+//        return "tests/create/user-detail";
+//    }
 }

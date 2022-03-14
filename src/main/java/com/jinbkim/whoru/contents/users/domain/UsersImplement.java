@@ -5,5 +5,5 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @NoArgsConstructor
-public class UsersBucket extends Users{
+public class UsersImplement extends Users{
 }

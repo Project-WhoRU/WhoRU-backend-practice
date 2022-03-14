@@ -2,14 +2,15 @@ package com.jinbkim.whoru.contents.users.service;
 
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.users.domain.Users;
+import com.jinbkim.whoru.contents.users.domain.UsersImplement;
 import com.jinbkim.whoru.contents.users.domain.UsersBucket;
 import com.jinbkim.whoru.contents.users.repository.UserBucketRepository;
 import com.jinbkim.whoru.contents.users.repository.UserRepository;
-import com.jinbkim.whoru.contents.users.web.dto.UserDto;
+import com.jinbkim.whoru.contents.users.web.dto.LoginDto;
+import com.jinbkim.whoru.contents.users.web.dto.SignUpDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserBucketRepository userBucketRepository;
 
-//    public Users addUser(UserDto user, Tests tests) {
-//        Users users = Users.builder()
+//    public UsersImplement addUser(SignUpDto user, Tests tests) {
+//        UsersImplement users = UsersImplement.builder()
 //            .nickname(user.getNickname())
 //            .password(user.getPassword())
 //            .testId(tests.getId())
@@ -27,23 +28,40 @@ public class UserService {
 //        return users;
 //    }
 
-    public UsersBucket addUserBucket(UserDto user, Tests tests) {
+    public Users addUserBucket(SignUpDto user, Tests tests) {
         UsersBucket users = UsersBucket.builder()
             .nickname(user.getNickname())
-            .password(user.getPassword())
+            .password(user.getPassword1())
             .testId(tests.getId())
             .build();
         userBucketRepository.save(users);
         return users;
     }
 
-    public void addUser(UsersBucket usersBucket) {
-        Users user = Users.builder()
-            .id(usersBucket.getId())
-            .nickname(usersBucket.getNickname())
-            .password(usersBucket.getPassword())
-            .testId(usersBucket.getTestId())
+//    public Users addUserBucket(LoginDto user) {
+//        UsersBucket users = UsersBucket.builder()
+//            .nickname(user.getNickname())
+//            .password(user.getPassword())
+//            .build();
+//        userBucketRepository.save(users);
+//        return users;
+//    }
+
+    public void addUser(Users users) {
+        UsersImplement user = UsersImplement.builder()
+            .id(users.getId())
+            .nickname(users.getNickname())
+            .password(users.getPassword())
+            .testId(users.getTestId())
             .build();
         userRepository.save(user);
     }
+
+    public boolean isLogin(LoginDto user) {
+        UsersImplement users = this.userRepository.findByNickname(user.getNickname());
+        if (users != null && users.getNickname().equals(user.getNickname()) && users.getPassword().equals(user.getPassword()))
+            return true;
+        return false;
+    }
+
 }
