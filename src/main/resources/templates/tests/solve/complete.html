@@ -4,7 +4,11 @@
   <main role="main" class="inner cover">
     <h1 class="cover-heading" th:text="#{solve-complete.title}"></h1>
 
-    <div th:replace="~{layout/gradeResult:: gradeResult}"></div>
+    <div class="jumbotron">
+    <p th:text="|#{solve-complete.examiner} : ${gradeResult.requestNickname}|"></p>
+    <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
+    <div th:replace="~{layout/gradeResult:: gradeResult(${gradeResult})}"></div>
+    </div>
 
     <input type="hidden" id="linkCopyComplete" th:value="#{solve-complete.link-copy-complete}">
     <a href="/" role="button" class="btn btn-lg btn-secondary" th:text="#{solve-complete.make-test}"></a>

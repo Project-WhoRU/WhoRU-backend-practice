@@ -95,4 +95,9 @@ public class GradeResultService {
     public GradeResult findGradeResult(String gradeResultId) {
         return gradeResultRepository.findById(gradeResultId).orElseThrow(GradeResultDoesntExistException::new);
     }
+
+    public void deleteGradeResult(String nickname) {
+        List<GradeResult> gradeResultList = this.gradeResultRepository.findByRequestNickname(nickname).orElseGet(()->null);
+        gradeResultList.stream().forEach(this.gradeResultRepository::delete);
+    }
 }

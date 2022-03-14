@@ -28,10 +28,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
-            .addPathPatterns("/create/**");
+            .addPathPatterns("/create/**")
+            .excludePathPatterns("/create/tests");
         registry.addInterceptor(new CreateTestCompleteInterceptor(testRepository))
             .addPathPatterns("/create/**")
-            .excludePathPatterns("create/questions/complete");
+            .excludePathPatterns("/create/questions/complete", "/create/tests/delete", "/create/tests");
     }
 
     @Bean

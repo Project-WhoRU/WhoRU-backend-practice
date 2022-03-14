@@ -1,8 +1,5 @@
-<div th:fragment="gradeResult">
-  <div class="jumbotron">
-    <p th:text="|#{solve-complete.examiner} : ${gradeResult.requestNickname}|"></p>
-    <p th:text="|#{solve-complete.candidates}  : ${gradeResult.responseNickname}|"></p>
-    <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
-    <p th:text="|#{solve-complete.number-of-correct-questions}  : ${gradeResult.answersCount}|"></p>
+<div th:fragment="gradeResult(result)">
+    <p th:text="|#{solve-complete.candidates}  : ${result.responseNickname}|"></p>
+    <p th:text="|#{solve-complete.number-of-correct-questions}  : ${result.answersCount}|"></p>
   </div>
 </div>

@@ -169,9 +169,9 @@ public class TestService {
         return null;
     }
 
-//    public void deleteTests(UsersImplement users) {
-//        this.testRepository.deleteById(users.getTestId());
-//        users.setTestId(null);
-//        this.userRepository.save(users);
-//    }
+    public void deleteTests(UsersImplement users) {
+        this.testRepository.deleteById(users.getTestId());
+        users.setTestId(null);
+        this.userRepository.save(users);
+    }
 }

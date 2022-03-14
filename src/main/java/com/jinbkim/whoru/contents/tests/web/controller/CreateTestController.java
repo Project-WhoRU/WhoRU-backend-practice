@@ -1,5 +1,6 @@
 package com.jinbkim.whoru.contents.tests.web.controller;
 import com.jinbkim.whoru.config.StaticFinalString;
+import com.jinbkim.whoru.contents.graderesult.service.GradeResultService;
 import com.jinbkim.whoru.contents.questions.service.QuestionService;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
 import com.jinbkim.whoru.contents.tests.repository.TestRepository;
@@ -7,6 +8,7 @@ import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.tests.service.TestService;
 import com.jinbkim.whoru.contents.users.domain.Users;
 import com.jinbkim.whoru.contents.users.domain.UsersImplement;
+import com.jinbkim.whoru.contents.users.repository.UserRepository;
 import com.jinbkim.whoru.contents.users.service.UserService;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import com.jinbkim.whoru.validator.QuestionValidator;
@@ -36,6 +38,8 @@ public class CreateTestController {
     private final TestRepository testRepository;
     private final QuestionValidator questionValidator;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final GradeResultService gradeResultService;
 
     @InitBinder
     public void init(WebDataBinder dataBinder) {
@@ -101,11 +105,24 @@ public class CreateTestController {
         return testService.validateNicknameDuplicate(nickname);
     }
 
-//    @GetMapping("/tests/delete")
-//    public String deleteTests(HttpSession httpSession) {
-//        UsersImplement users = (UsersImplement) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
-//        this.testService.deleteTests(users);
-//        return "redirect:/user/user-detail";
-//    }
+    @GetMapping("/tests/delete")
+    public String deleteTests(HttpSession httpSession) {
+        UsersImplement users = (UsersImplement) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        this.testService.deleteTests(users);
+        this.gradeResultService.deleteGradeResult(users.getNickname());
+        return "redirect:/users/detail";
+    }
+
+    @GetMapping("/tests")
+    public String createTests(HttpSession httpSession) {
+        Users users = (Users)httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        if (users == null)
+            return "redirect:/users/login";
+        UsersImplement user = this.userRepository.findById(users.getId()).orElseGet(null);
+        if (user == null)
+            return "redirect:/users/login";
+        return "redirect:/users/detail";
+    }
+
 
 }

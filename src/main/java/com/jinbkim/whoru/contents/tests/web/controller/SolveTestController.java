@@ -1,6 +1,8 @@
 package com.jinbkim.whoru.contents.tests.web.controller;
 
+import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.graderesult.domain.GradeResult;
+import com.jinbkim.whoru.contents.graderesult.repository.GradeResultRepository;
 import com.jinbkim.whoru.contents.graderesult.service.GradeResultService;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
@@ -9,6 +11,8 @@ import com.jinbkim.whoru.contents.tests.web.dto.AnswerSubmitDto;
 import com.jinbkim.whoru.contents.tests.web.dto.FindTestPageResponseDto;
 import com.jinbkim.whoru.contents.tests.web.dto.ReadTestByNicknameRequestDto;
 import com.jinbkim.whoru.contents.tests.web.dto.TestSetNicknameRequestDto;
+import com.jinbkim.whoru.contents.users.domain.Users;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SolveTestController {
     private final TestService testService;
     private final GradeResultService gradeResultService;
+    private final GradeResultRepository gradeResultRepository;
 
     @GetMapping("/tests/index/{nickname}")
     public String testsSolveIndexPage(@PathVariable String nickname, Model model, HttpSession httpSession) {
@@ -138,8 +143,19 @@ public class SolveTestController {
     @PostMapping("read/nickname")
     public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
         Tests test = this.testService.findTest(readTestByNicknameRequestDto.getNicknameSearch());
-        if (test == null)
+        if (test == null) {
             return "error/404";
+        }
         return "redirect:/solve/tests/index/" + readTestByNicknameRequestDto.getNicknameSearch();
+    }
+
+    @GetMapping("/grade-result-list")
+    public String findGradeResult(Model model, HttpSession httpSession) {
+        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        List<GradeResult> gradeResultList = this.gradeResultRepository.findByRequestNickname(users.getNickname()).orElseGet(()->null);
+
+        model.addAttribute("gradeResultList", gradeResultList);
+
+        return "tests/solve/grade-result-list";
     }
 }

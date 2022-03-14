@@ -2,6 +2,7 @@ package com.jinbkim.whoru.contents.users.web.controller;
 
 import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.tests.domain.Tests;
+import com.jinbkim.whoru.contents.tests.repository.TestRepository;
 import com.jinbkim.whoru.contents.tests.service.TestService;
 import com.jinbkim.whoru.contents.users.domain.Users;
 import com.jinbkim.whoru.contents.users.domain.UsersImplement;
@@ -9,8 +10,10 @@ import com.jinbkim.whoru.contents.users.repository.UserRepository;
 import com.jinbkim.whoru.contents.users.service.UserService;
 import com.jinbkim.whoru.contents.users.web.dto.LoginDto;
 import com.jinbkim.whoru.contents.users.web.dto.SignUpDto;
+import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import com.jinbkim.whoru.validator.LoginValidator;
 import com.jinbkim.whoru.validator.SignUpValidator;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +38,7 @@ public class UserController {
     private final SignUpValidator signUpValidator;
     private final UserRepository userRepository;
     private final LoginValidator loginValidator;
+    private final TestRepository testRepository;
 
     @InitBinder("login")
     public void initLoginDto(WebDataBinder dataBinder) {
@@ -79,13 +83,30 @@ public class UserController {
         return "redirect:/create/questions/question-type";
     }
 
-//    @GetMapping("/detail")
-//    public String userDetail(Model model, HttpSession httpSession) {
-//        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
-//
-//        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
-//        if (users.getTestId() == null)
-//            model.addAttribute("textEmpty", true);
-//        return "tests/create/user-detail";
-//    }
+    @GetMapping("/detail")
+    public String userDetail(Model model, HttpSession httpSession, HttpServletRequest httpServletRequest) {
+        UsersImplement users = (UsersImplement) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        if (users.getTestId() == null) {
+            Tests tests = this.testService.addTest();
+            users.setTestId(tests.getId());
+            this.userRepository.save(users);
+        }
+        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
+
+        Tests tests = this.testRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
+        if (tests.getQuestionIds().size() == 0) {
+            model.addAttribute("testEmpty", true);
+        }
+
+        model.addAttribute("domain", httpServletRequest.getServerName());
+        model.addAttribute("nickname", users.getNickname());
+
+        return "tests/create/user-detail";
+    }
+
+    @GetMapping("logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.removeAttribute(StaticFinalString.LOGIN_USER);
+        return "redirect:/";
+    }
 }
