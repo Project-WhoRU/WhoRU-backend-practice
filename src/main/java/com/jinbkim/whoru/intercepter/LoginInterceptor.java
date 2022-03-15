@@ -14,7 +14,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
         if (session == null || session.getAttribute(StaticFinalString.LOGIN_USER) == null) {
-            log.info("미인증 사용자 요청");
+            log.info(StaticFinalString.NONE_AUTHORIZATION);
             response.sendRedirect("/users/login");
             return false;
         }

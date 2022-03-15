@@ -31,6 +31,12 @@
         </form>
       </div>
 
+
+      <th:block th:if="${session.loginUser}">
+        <div class="navbar-brand" th:text="|${session.loginUser.getNickname()}님|"></div>
+        <a class="navbar-brand" href="/users/logout" th:text="|#{header.logout}     |" style="color:red"></a>
+      </th:block>
+
       <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
                 data-toggle="dropdown" aria-expanded="true" th:text="#{header.language}">
@@ -39,9 +45,7 @@
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 
           <form method="POST" action="/set/language">
-            <li role="presentation">
-              <a role="menuitem" tabindex="-1" href="/language?language=en">English</a></li>
-            </li>
+            <a role="menuitem" tabindex="-1" href="/language?language=en">English</a></li>
             <a role="menuitem" tabindex="-1" href="/language?language=ko">한국어</a></li>
           </form>
 

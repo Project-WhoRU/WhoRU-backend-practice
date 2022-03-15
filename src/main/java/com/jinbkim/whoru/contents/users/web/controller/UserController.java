@@ -108,7 +108,7 @@ public class UserController {
         return "tests/create/user-detail";
     }
 
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         httpSession.removeAttribute(StaticFinalString.LOGIN_USER);
         return "redirect:/";
