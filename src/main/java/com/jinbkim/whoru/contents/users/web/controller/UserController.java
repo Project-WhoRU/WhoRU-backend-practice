@@ -51,8 +51,10 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, HttpServletRequest httpServletRequest, HttpSession httpSession) {
         model.addAttribute("login", new LoginDto());
+        String oldURL = httpServletRequest.getHeader("Referer");
+        httpSession.setAttribute("oldURL", oldURL);
         return "tests/create/login";
     }
 
@@ -62,7 +64,9 @@ public class UserController {
             return "tests/create/login";
         UsersImplement users = userRepository.findByNickname(loginDto.getNickname());
         httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
-        return "redirect:/users/detail";
+
+        String oldURL = (String)httpSession.getAttribute("oldURL");
+        return "redirect:"+oldURL;
     }
 
     @GetMapping("/sign-up")
