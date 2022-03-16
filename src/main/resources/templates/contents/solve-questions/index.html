@@ -1,0 +1,16 @@
+<div th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
+
+<body class="text-center">
+<main role="main" class="inner cover">
+  <h1 class="cover-heading" th:text="#{index.title}"></h1>
+  <div class="lead" th:text="#{index.solve-test.description(${session.gradeResult.users.nickname})}"></div>
+  <br>
+  <div class="lead">
+    <a href="/solve-questions/init" role="button" class="btn btn-lg btn-primary" th:text="#{index.solve-test}"></a>
+    <a href="/" role="button" class="btn btn-lg btn-secondary" th:text="#{index.make-test}"></a>
+
+  </div>
+</main>
+</body>
+
+<div th:replace="~{layout/footer :: footer}"></div>

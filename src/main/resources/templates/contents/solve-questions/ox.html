@@ -1,0 +1,35 @@
+<div th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
+
+<div class="mx-auto" style="width: 500px;">
+  <form method="post" action="/solve-questions/submit-answer">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" th:text="|${page}/${lastPage}|" }></h5>
+        </div>
+
+        <div class="modal-body">
+          <p th:text="${question.question}"></p>
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="answer" id="O" value="O" checked>
+            <label class="form-check-label" for="O">O</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="answer" id="X" value="X">
+            <label class="form-check-label" for="X">X</label>
+          </div>
+
+          <div th:replace="~{layout/solveQuestionButton :: solveQuestionButton}"></div>
+
+          <input type="hidden" name="page" th:value="${page}">
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>

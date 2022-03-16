@@ -1,8 +1,8 @@
 package com.jinbkim.whoru.intercepter;
 
 import com.jinbkim.whoru.config.StaticFinalString;
-import com.jinbkim.whoru.contents.tests.domain.Tests;
-import com.jinbkim.whoru.contents.tests.repository.TestRepository;
+import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
+import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
 import com.jinbkim.whoru.contents.users.domain.Users;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,16 +14,16 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 @RequiredArgsConstructor
 public class CreateTestCompleteInterceptor extends HandlerInterceptorAdapter {
 
-    private final TestRepository testRepository;
+    private final QuestionListRepository questionListRepository;
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Users users  = (Users)request.getSession().getAttribute(StaticFinalString.LOGIN_USER);
-        Tests tests = testRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
-        if (tests.getComplete() == Boolean.TRUE) {
-            response.sendRedirect("/error/404");
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        Users users  = (Users)request.getSession().getAttribute(StaticFinalString.LOGIN_USER);
+//        QuestionList questionList = questionListRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
+//        if (questionList.getComplete() == Boolean.TRUE) {
+//            response.sendRedirect("/error/404");
+//            return false;
+//        }
+//        return true;
+//    }
 }

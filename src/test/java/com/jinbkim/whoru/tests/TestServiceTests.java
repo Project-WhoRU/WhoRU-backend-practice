@@ -6,9 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class TestServiceTests {
 
 //    @Autowired
-//    TestRepository testRepository;
+//    QuestionListRepository testRepository;
 //    @Autowired
-//    TestService testService;
+//    QuestionListService testService;
 //    @Autowired
 //    QuestionRepository questionRepository;
 //
@@ -22,7 +22,7 @@ public class TestServiceTests {
 //        TestAddResponseDto testAddResponseDto = testService.addTest(testAddRequestDto);
 //
 //        // then
-//        Tests tests = testRepository.findById(testAddResponseDto.getTestId()).get();
+//        QuestionList tests = testRepository.findById(testAddResponseDto.getTestId()).get();
 //        Assertions.assertEquals(testAddRequestDto.getNickname(), tests.getNickname());
 //        Assertions.assertEquals(testAddRequestDto.getQuestions().size(), tests.getQuestionIds().size());
 //    }
@@ -94,7 +94,7 @@ public class TestServiceTests {
 //        // 정상적인 테스트 생성
 //        TestAddRequestDto testAddRequestDto = new TestAddRequestDtoCorrect();
 //        TestAddResponseDto testAddResponseDto = testService.addTest(testAddRequestDto);
-//        Tests tests = testRepository.findById((testAddResponseDto.getTestId())).get();
+//        QuestionList tests = testRepository.findById((testAddResponseDto.getTestId())).get();
 //        // 테스트아이디와, 정답들로 TestGradeRequestDto 생성
 //        List<String> answerSubmit = new ArrayList<>();
 //        for(String questionId : tests.getQuestionIds())
@@ -116,7 +116,7 @@ public class TestServiceTests {
 //        // 정상적인 테스트 생성
 //        TestAddRequestDto testAddRequestDto = new TestAddRequestDtoCorrect();
 //        TestAddResponseDto testAddResponseDto = testService.addTest(testAddRequestDto);
-//        Tests tests = testRepository.findById((testAddResponseDto.getTestId())).get();
+//        QuestionList tests = testRepository.findById((testAddResponseDto.getTestId())).get();
 //        // 테스트아이디와, 정답들로 TestGradeRequestDto 생성
 //        List<String> answerSubmit = new ArrayList<>();
 //        for(String questionId : tests.getQuestionIds())

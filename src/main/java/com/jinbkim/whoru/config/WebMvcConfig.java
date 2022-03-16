@@ -1,6 +1,6 @@
 package com.jinbkim.whoru.config;
 
-import com.jinbkim.whoru.contents.tests.repository.TestRepository;
+import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
 import com.jinbkim.whoru.intercepter.CreateTestCompleteInterceptor;
 import com.jinbkim.whoru.intercepter.LoginInterceptor;
 import java.util.Locale;
@@ -16,24 +16,27 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private final TestRepository testRepository;
+    private final QuestionListRepository questionListRepository;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("tests/create/index");
-        registry.addViewController("/create/questions/question-type").setViewName("tests/create/select-question-type");
+        registry.addViewController("/").setViewName("contents/create-questions/index");
+        registry.addViewController("/create-questions/question-type").setViewName("contents/create-questions/select-question-type");
         registry.addViewController("/error/404").setViewName("error/404");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
-            .addPathPatterns("/create/**")
-            .excludePathPatterns("/create/tests");
-        registry.addInterceptor(new CreateTestCompleteInterceptor(testRepository))
-            .addPathPatterns("/create/**")
-            .excludePathPatterns("/create/questions/complete", "/create/tests/delete", "/create/tests");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new LoginInterceptor())
+//            .addPathPatterns("/**")
+//            .excludePathPatterns("/", "/users/login");
+//
+////            .addPathPatterns("/create-questions/**")
+////            .excludePathPatterns("/create-questions/tests");
+//        registry.addInterceptor(new CreateTestCompleteInterceptor(questionListRepository))
+//            .addPathPatterns("/create-questions/**")
+//            .excludePathPatterns("/create-questions/questions/complete", "/create-questions/tests/delete", "/create-questions/tests");
+//    }
 
     @Bean
     public SessionLocaleResolver localeResolver() {

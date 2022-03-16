@@ -23,7 +23,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" th:href="${home}" th:text="#{header.title}"></a>
       <div class="collapse navbar-collapse mt-3" id="navbarSupportedContent">
-        <form class="d-flex" method="POST" action="/solve/read/nickname">
+        <form class="d-flex" method="POST" action="/solve-questions/search">
           <input class="form-control" type="search" name="nicknameSearch"
                  id="nicknameSearch" th:placeholder="#{header.nickname-search}">
           <button class="btn btn-outline-success" type="submit"

@@ -1,9 +1,12 @@
 package com.jinbkim.whoru.contents.graderesult.domain;
 
+import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
+import com.jinbkim.whoru.contents.users.domain.Users;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
@@ -12,18 +15,20 @@ import org.springframework.data.annotation.Id;
 public class GradeResult {
     @Id
     private String id;
-    private String testId;
-    private String requestNickname;
-    private String responseNickname;
+    private Users users;
+    private String nickname;
+//    private String testId;
+//    private String requestNickname;
+//    private String responseNickname;
     private List<String> answerSubmit;
     private List<Boolean> gradeResult;
     private int questionsCount;
     private int answersCount;
 
     @Builder
-    public GradeResult(String testId, String responseNickname) {
-        this.testId = testId;
-        this.responseNickname = responseNickname;
+    public GradeResult() {
+//        this.testId = testId;
+//        this.responseNickname = responseNickname;
         answerSubmit = new ArrayList<>();
         gradeResult = new ArrayList<>();
         answersCount = 0;
@@ -36,4 +41,6 @@ public class GradeResult {
     public void updateAnswerSubmit(String page, String answer) {
         answerSubmit.set(Integer.parseInt(page)-1, answer);
     }
+
+
 }

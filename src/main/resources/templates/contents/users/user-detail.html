@@ -1,0 +1,47 @@
+<div th:replace="~{layout/header ::header('/')}"></div>
+
+<div class="mx-auto" style="width: 500px;">
+  <th:block th:if="${testEmpty}">
+    <a href="/create-questions/question-type" role="button"
+       class="btn btn-outline-primary btn-lg btn-block"
+       th:text="#{user-detail.make-test}"></a>
+  </th:block>
+
+  <th:block th:unless="${testEmpty}">
+    <a href="#" role="button"
+       class="btn btn-outline-primary btn-lg btn-block"
+       th:text="#{user-detail.share-test}"
+       onclick="copyLink()"></a>
+
+    <a href="/grade-questions/gradeResultList" role="button"
+       class="btn btn-outline-success btn-lg btn-block"
+       th:text="#{user-detail.grade-result}"></a>
+
+    <a href="/users/delete-questionList" role="button"
+       class="btn btn-outline-warning btn-lg btn-block"
+       th:text="#{user-detail.remove-test}"></a>
+
+  </th:block>
+
+  <a href="/users/logout" role="button"
+     class="btn btn-outline-danger btn-lg btn-block"
+     th:text="#{user-detail.logout}"></a>
+</div>
+
+<input type="hidden" id="linkCopyComplete" th:value="#{create-complete.link-copy-complete}">
+
+
+<script th:inline="javascript">
+  function copyLink() {
+    let textarea = document.createElement("textarea");
+    document.body.appendChild(textarea);
+    textarea.value = "http://" + [[${domain}]] + ":8080/solve-questions/index/" + [[${nickname}]];
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    let linkCopyComplete = document.getElementById('linkCopyComplete').value;
+    alert(linkCopyComplete);
+  }
+</script>
+
+<div th:replace="~{layout/footer :: footer}"></div>

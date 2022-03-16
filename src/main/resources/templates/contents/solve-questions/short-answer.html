@@ -1,0 +1,35 @@
+<div th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
+
+<div class="mx-auto" style="width: 500px;">
+  <form method="post" action="/solve-questions/submit-answer" th:object="${answerSubmit}">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" th:text="|${page}/${lastPage}|" }></h5>
+        </div>
+
+        <div class="modal-body">
+          <p th:text="${question.question}"></p>
+
+          <div class="form-group">
+            <label for="answer" th:text="#{question.answer}"></label>
+            <input type="text" class="form-control" id="answer" th:field="*{answer}">
+          </div>
+
+          <th:block th:if="${answerSubmitError}">
+            <div class="field-error" th:text="#{notblank}"></div>
+          </th:block>
+
+          <div th:replace="~{layout/solveQuestionButton :: solveQuestionButton}"></div>
+
+          <input type="hidden" name="page" th:value="${page}">
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>

@@ -1,0 +1,33 @@
+<div th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
+
+<div class="mx-auto" style="width: 500px;">
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading" th:text="#{solve-complete.title}"></h1>
+
+    <div class="jumbotron">
+    <p th:text="|#{solve-complete.examiner} : ${gradeResult.users.nickname}|"></p>
+    <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
+    <div th:replace="~{layout/gradeResult:: gradeResult(${gradeResult})}"></div>
+    </div>
+
+    <input type="hidden" id="linkCopyComplete" th:value="#{solve-complete.link-copy-complete}">
+    <a href="/" role="button" class="btn btn-lg btn-secondary" th:text="#{solve-complete.make-test}"></a>
+    <a href="#" onclick="copyLink()" role="button" class="btn btn-lg btn-primary" th:text="#{solve-complete.link-copy}"></a>
+
+  </main>
+</div>
+
+<script th:inline="javascript">
+  function copyLink() {
+    let textarea = document.createElement("textarea");
+    document.body.appendChild(textarea);
+    textarea.value = "http://" + [[${domain}]] + ":8080/grade-questions/page/" +  [[${gradeResult.id}]];
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    let linkCopyComplete = document.getElementById('linkCopyComplete').value;
+    alert(linkCopyComplete);
+  }
+</script>
+
+<div th:replace="~{layout/footer :: footer}"></div>
