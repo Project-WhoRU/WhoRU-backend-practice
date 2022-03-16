@@ -94,7 +94,6 @@ public class UserController {
     @GetMapping("/detail")
     public String userDetail(Model model, HttpSession httpSession, HttpServletRequest httpServletRequest) {
         Users users = (Users) httpSession.getAttribute("loginUser");
-//        if (users.getTestId() == null) {
 
         if (users.getQuestionList() == null) {
 //            QuestionList questionList = this.questionListService.addTest();
@@ -103,12 +102,9 @@ public class UserController {
             QuestionList questionList = questionListService.createQuestionList();
             userService.setQuestionList(users, questionList);
         }
-        httpSession.setAttribute("loginUser", users);
-
 //        QuestionList questionList = this.questionListRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
        QuestionList questionList = users.completeCheckAndGetQuestionList();
        userRepository.save(users);
-       httpSession.setAttribute("loginUser", users);
 
         if (questionList.getQuestions().size() == 0) {
             model.addAttribute("testEmpty", true);
@@ -150,6 +146,7 @@ public class UserController {
     @GetMapping("/gradeResultList")
     public String findGradeResult(Model model, HttpSession httpSession) {
         Users users = (Users) httpSession.getAttribute("loginUser");
+        gradeResultService.deleteUnCompleteGradeResult(users);
         List<GradeResult> gradeResultList = gradeResultRepository.findByUsers(users);
         if (gradeResultList.size() != 0)
             model.addAttribute("gradeResultList", gradeResultList);

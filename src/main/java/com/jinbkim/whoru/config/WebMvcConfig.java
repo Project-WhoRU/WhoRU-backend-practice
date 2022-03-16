@@ -1,8 +1,9 @@
 package com.jinbkim.whoru.config;
 
 import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
-import com.jinbkim.whoru.intercepter.CreateTestCompleteInterceptor;
+import com.jinbkim.whoru.intercepter.CreateQuestionListCompleteInterceptor;
 import com.jinbkim.whoru.intercepter.LoginInterceptor;
+import com.jinbkim.whoru.intercepter.solveQuestionListCompleteInterceptor;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("contents/create-questions/index");
         registry.addViewController("/create-questions/question-type").setViewName("contents/create-questions/select-question-type");
+        registry.addViewController("/create-questions/complete").setViewName("contents/create-questions/complete");
         registry.addViewController("/error/404").setViewName("error/404");
     }
 
@@ -30,10 +32,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
             .addPathPatterns("/create-questions/**", "/users/**")
             .excludePathPatterns("/users/login", "/users/sign-up");
-
-//        registry.addInterceptor(new CreateTestCompleteInterceptor(questionListRepository))
-//            .addPathPatterns("/create-questions/**")
-//            .excludePathPatterns("/create-questions/questions/complete", "/create-questions/tests/delete", "/create-questions/tests");
+        registry.addInterceptor(new CreateQuestionListCompleteInterceptor())
+            .addPathPatterns("/create-questions/**")
+            .excludePathPatterns("/create-questions/complete");
+        registry.addInterceptor(new solveQuestionListCompleteInterceptor())
+            .addPathPatterns("/solve-questions/**")
+            .excludePathPatterns("/solve-questions/index/**", "/solve-questions/search");
     }
 
     @Bean

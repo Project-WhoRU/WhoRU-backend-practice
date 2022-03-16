@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -72,7 +73,7 @@ public class CreateQuestionListController {
         Users users = (Users) httpSession.getAttribute("loginUser");
 //        questionListService.addQuestionId(users.getTestId(), questionId);
         questionListService.addQuestion(users.getQuestionList(), question);
-        httpSession.setAttribute("loginUser", users);
+//        httpSession.setAttribute("loginUser", users);
         return "redirect:/create-questions/question-type";
     }
 
@@ -82,9 +83,11 @@ public class CreateQuestionListController {
         return "contents/create-questions/"+type;
     }
 
-    @PostMapping("/complete")
-    public String questionListComplete(@Valid QuestionDto questionDto, HttpSession httpSession, Model model, HttpServletRequest httpServletRequest) {
-//        String questionId = questionService.addQuestion(questionDto);
+    @PostMapping("/submit-questionList")
+    public String questionListComplete(@Valid @ModelAttribute("question")QuestionDto questionDto, BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors())
+            return "contents/create-questions/"+ questionDto.getType();
+        //        String questionId = questionService.addQuestion(questionDto);
         Question question = questionService.createQuestion(questionDto);
         Users users = (Users) httpSession.getAttribute("loginUser");
 //        QuestionList questionList = users.getQuestionList();
@@ -97,9 +100,9 @@ public class CreateQuestionListController {
 //        questionListService.completeTest(users.getTestId());
         userService.addUser(users);
 
-        model.addAttribute("domain", httpServletRequest.getServerName());
-        model.addAttribute("nickname", users.getNickname());
-        return "contents/create-questions/complete";
+        redirectAttributes.addAttribute("domain", httpServletRequest.getServerName());
+        redirectAttributes.addAttribute("nickname", users.getNickname());
+        return "redirect:/create-questions/complete";
     }
 
 //    @PostMapping("/validate/nickname")

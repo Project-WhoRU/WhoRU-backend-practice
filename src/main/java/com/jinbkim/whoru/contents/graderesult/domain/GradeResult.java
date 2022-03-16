@@ -22,6 +22,7 @@ public class GradeResult {
     private List<Boolean> gradeResult;
     private int questionsCount;
     private int answersCount;
+    private boolean complete;
 
     @Builder
     public GradeResult() {
@@ -31,6 +32,7 @@ public class GradeResult {
         gradeResult = new ArrayList<>();
         answersCount = 0;
         questionsCount = 0;
+        complete = false;
     }
 
     public void addAnswerSubmit(String answer) {

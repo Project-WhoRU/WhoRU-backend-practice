@@ -137,6 +137,7 @@ public class GradeResultService {
 
         gradeResult.setAnswersCount(answerCount);
         gradeResult.setGradeResult(result);
+        gradeResult.setComplete(true);
 
 //        gradeResult.setRequestNickname(requesterNickname);
         gradeResultRepository.save(gradeResult);
@@ -151,5 +152,13 @@ public class GradeResultService {
 //        List<GradeResult> gradeResultList = this.gradeResultRepository.findByRequestNickname(nickname).orElseGet(()->null);
         List<GradeResult> gradeResultList = this.gradeResultRepository.findByUsers(user);
         gradeResultList.stream().forEach(this.gradeResultRepository::delete);
+    }
+
+    public void deleteUnCompleteGradeResult(Users users) {
+        List<GradeResult> gradeResultList = gradeResultRepository.findByUsers(users);
+        for (GradeResult gradeResult : gradeResultList) {
+            if (gradeResult.isComplete() == false)
+                gradeResultRepository.delete(gradeResult);
+        }
     }
 }
