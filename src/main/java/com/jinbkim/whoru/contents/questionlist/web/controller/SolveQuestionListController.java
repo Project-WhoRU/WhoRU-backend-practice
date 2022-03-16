@@ -43,7 +43,6 @@ public class SolveQuestionListController {
 
     @GetMapping("/index/{nickname}")
     public String index(@PathVariable String nickname, HttpSession httpSession) {
-        System.out.println("nickname : " +nickname);
         UsersImplement usersImplement = userService.findUser(nickname);
 
         GradeResult gradeResult = gradeResultService.createGradeResult();
@@ -152,11 +151,13 @@ public class SolveQuestionListController {
     @PostMapping("/search")
     public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
         UsersImplement user = userRepository.findByNickname(readTestByNicknameRequestDto.getNicknameSearch());
+        if (user == null)
+            return "error/404";
         QuestionList questionList = user.getQuestionList();
 
 //        QuestionList questionList = questionListRepository.findByNickname
 //        QuestionList test = this.questionListService.findTest(readTestByNicknameRequestDto.getNicknameSearch());
-        if (user == null || questionList.getQuestions().size() == 0) {
+        if (questionList.getQuestions().size() == 0) {
             return "error/404";
         }
         return "redirect:/solve-questions/index/" + readTestByNicknameRequestDto.getNicknameSearch();

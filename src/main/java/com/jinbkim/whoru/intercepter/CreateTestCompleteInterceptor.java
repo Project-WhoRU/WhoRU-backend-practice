@@ -18,7 +18,7 @@ public class CreateTestCompleteInterceptor extends HandlerInterceptorAdapter {
 
 //    @Override
 //    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        Users users  = (Users)request.getSession().getAttribute(StaticFinalString.LOGIN_USER);
+//        Users users  = (Users)request.getSession().getAttribute("loginUser");
 //        QuestionList questionList = questionListRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
 //        if (questionList.getComplete() == Boolean.TRUE) {
 //            response.sendRedirect("/error/404");

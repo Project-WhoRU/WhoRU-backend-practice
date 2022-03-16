@@ -1,6 +1,8 @@
 package com.jinbkim.whoru.contents.users.web.controller;
 
 import com.jinbkim.whoru.config.StaticFinalString;
+import com.jinbkim.whoru.contents.graderesult.domain.GradeResult;
+import com.jinbkim.whoru.contents.graderesult.repository.GradeResultRepository;
 import com.jinbkim.whoru.contents.graderesult.service.GradeResultService;
 import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
 import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
@@ -14,6 +16,7 @@ import com.jinbkim.whoru.contents.users.web.dto.SignUpDto;
 import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import com.jinbkim.whoru.validator.LoginValidator;
 import com.jinbkim.whoru.validator.SignUpValidator;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +42,9 @@ public class UserController {
     private final SignUpValidator signUpValidator;
     private final UserRepository userRepository;
     private final LoginValidator loginValidator;
-    private final QuestionListRepository questionListRepository;
     private final GradeResultService gradeResultService;
+    private final GradeResultRepository gradeResultRepository;
+
 
     @InitBinder("login")
     public void initLoginDto(WebDataBinder dataBinder) {
@@ -67,7 +71,7 @@ public class UserController {
             return "contents/users/login";
 
         UsersImplement users = userRepository.findByNickname(loginDto.getNickname());
-        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
+        httpSession.setAttribute("loginUser", users);
 
         String oldURL = (String)httpSession.getAttribute("oldURL");
         return "redirect:"+oldURL;
@@ -87,13 +91,13 @@ public class UserController {
         QuestionList questionList = questionListService.createQuestionList();
         Users users = userService.createUserBucket(signUpDto, questionList);
 
-        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
+        httpSession.setAttribute("loginUser", users);
         return "redirect:/create-questions/question-type";
     }
 
     @GetMapping("/detail")
     public String userDetail(Model model, HttpSession httpSession, HttpServletRequest httpServletRequest) {
-        UsersImplement users = (UsersImplement) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        UsersImplement users = (UsersImplement) httpSession.getAttribute("loginUser");
 //        if (users.getTestId() == null) {
 
         if (users.getQuestionList() == null) {
@@ -103,7 +107,7 @@ public class UserController {
             QuestionList questionList = questionListService.createQuestionList();
             userService.setQuestionList(users, questionList);
         }
-        httpSession.setAttribute(StaticFinalString.LOGIN_USER, users);
+        httpSession.setAttribute("loginUser", users);
 
 //        QuestionList questionList = this.questionListRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
        QuestionList questionList = users.getQuestionList();
@@ -120,13 +124,13 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
-        httpSession.removeAttribute(StaticFinalString.LOGIN_USER);
+        httpSession.removeAttribute("loginUser");
         return "redirect:/";
     }
 
     @GetMapping("/loginResolver")
     public String loginResolver(HttpSession httpSession) {
-        Users users = (Users)httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        Users users = (Users)httpSession.getAttribute("loginUser");
         if (users == null)
             return "redirect:/users/login";
 
@@ -139,9 +143,19 @@ public class UserController {
 
     @GetMapping("/delete-questionList")
     public String deleteQuestionList(HttpSession httpSession) {
-        UsersImplement users = (UsersImplement) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        UsersImplement users = (UsersImplement) httpSession.getAttribute("loginUser");
         questionListService.deleteQuestionList(users);
         gradeResultService.deleteGradeResult(users);
         return "redirect:/users/detail";
+    }
+
+    @GetMapping("/gradeResultList")
+    public String findGradeResult(Model model, HttpSession httpSession) {
+        Users users = (Users) httpSession.getAttribute("loginUser");
+        List<GradeResult> gradeResultList = gradeResultRepository.findByUsers(users);
+        if (gradeResultList.size() != 0)
+            model.addAttribute("gradeResultList", gradeResultList);
+
+        return "contents/users/grade-result-list";
     }
 }

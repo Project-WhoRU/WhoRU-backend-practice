@@ -25,18 +25,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/error/404").setViewName("error/404");
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor())
-//            .addPathPatterns("/**")
-//            .excludePathPatterns("/", "/users/login");
-//
-////            .addPathPatterns("/create-questions/**")
-////            .excludePathPatterns("/create-questions/tests");
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginInterceptor())
+            .addPathPatterns("/create-questions/**", "/users/**")
+            .excludePathPatterns("/users/login", "/users/sign-up");
+
 //        registry.addInterceptor(new CreateTestCompleteInterceptor(questionListRepository))
 //            .addPathPatterns("/create-questions/**")
 //            .excludePathPatterns("/create-questions/questions/complete", "/create-questions/tests/delete", "/create-questions/tests");
-//    }
+    }
 
     @Bean
     public SessionLocaleResolver localeResolver() {

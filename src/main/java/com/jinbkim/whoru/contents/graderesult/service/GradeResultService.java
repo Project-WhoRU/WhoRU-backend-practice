@@ -149,9 +149,9 @@ public class GradeResultService {
         return gradeResult;
     }
 
-    public GradeResult findGradeResult(String gradeResultId) {
-        return gradeResultRepository.findById(gradeResultId).orElseThrow(GradeResultDoesntExistException::new);
-    }
+//    public GradeResult findGradeResult(String gradeResultId) {
+//        return gradeResultRepository.findById(gradeResultId).orElseThrow(GradeResultDoesntExistException::new);
+//    }
 
     public void deleteGradeResult(UsersImplement user) {
 //        List<GradeResult> gradeResultList = this.gradeResultRepository.findByRequestNickname(nickname).orElseGet(()->null);

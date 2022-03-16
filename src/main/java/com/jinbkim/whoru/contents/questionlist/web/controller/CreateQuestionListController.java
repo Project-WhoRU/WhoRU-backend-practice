@@ -73,7 +73,7 @@ public class CreateQuestionListController {
         Question question = questionService.createQuestion(questionDto);
 
 
-        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        Users users = (Users) httpSession.getAttribute("loginUser");
 //        questionListService.addQuestionId(users.getTestId(), questionId);
         questionListService.addQuestion(users.getQuestionList(), question);
         return "redirect:/create-questions/question-type";
@@ -89,7 +89,7 @@ public class CreateQuestionListController {
     public String questionListComplete(@Valid QuestionDto questionDto, HttpSession httpSession, Model model, HttpServletRequest httpServletRequest) {
 //        String questionId = questionService.addQuestion(questionDto);
         Question question = questionService.createQuestion(questionDto);
-        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
+        Users users = (Users) httpSession.getAttribute("loginUser");
 //        QuestionList questionList = users.getQuestionList();
         questionListService.questionListComplete(users.getQuestionList());
 //        questionList.setComplete(Boolean.TRUE);

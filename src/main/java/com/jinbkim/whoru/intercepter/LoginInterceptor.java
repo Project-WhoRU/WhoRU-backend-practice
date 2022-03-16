@@ -13,7 +13,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-        if (session == null || session.getAttribute(StaticFinalString.LOGIN_USER) == null) {
+        if (session == null || session.getAttribute("loginUser") == null) {
             log.info(StaticFinalString.NONE_AUTHORIZATION);
             response.sendRedirect("/users/login");
             return false;

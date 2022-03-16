@@ -1,12 +1,10 @@
 package com.jinbkim.whoru.contents.graderesult.domain;
 
-import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
 import com.jinbkim.whoru.contents.users.domain.Users;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 

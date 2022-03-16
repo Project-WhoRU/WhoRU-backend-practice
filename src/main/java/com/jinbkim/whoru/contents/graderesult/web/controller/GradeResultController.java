@@ -22,16 +22,6 @@ public class GradeResultController {
     private final GradeResultRepository gradeResultRepository;
     private final GradeResultService gradeResultService;
 
-    @GetMapping("/gradeResultList")
-    public String findGradeResult(Model model, HttpSession httpSession) {
-        Users users = (Users) httpSession.getAttribute(StaticFinalString.LOGIN_USER);
-        List<GradeResult> gradeResultList = gradeResultRepository.findByUsers(users);
-        if (gradeResultList.size() != 0)
-            model.addAttribute("gradeResultList", gradeResultList);
-
-        return "contents/users/grade-result-list";
-    }
-
     @GetMapping
     public String grade(HttpSession httpSession, Model model, HttpServletRequest httpServletRequest) {
 
@@ -50,13 +40,11 @@ public class GradeResultController {
 //        TestFindResponseDto testFindResponseDto = testService.findTest(testId);
 //        model.addAttribute("nickname", testFindResponseDto.getNickname());
 
-        System.out.println("grade!!");
         return "contents/solve-questions/complete";
     }
 
     @GetMapping("/page/{id}")
     public String gradeResultPage(@PathVariable String id, Model model) {
-        System.out.println("id : " + id);
         GradeResult gradeResult = gradeResultRepository.findById(id).orElseGet(() -> null);
         model.addAttribute("gradeResult", gradeResult);
         return "contents/solve-questions/grade-result";
