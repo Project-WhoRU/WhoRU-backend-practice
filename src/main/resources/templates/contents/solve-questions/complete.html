@@ -17,17 +17,6 @@
   </main>
 </div>
 
-<script th:inline="javascript">
-  function copyLink() {
-    let textarea = document.createElement("textarea");
-    document.body.appendChild(textarea);
-    textarea.value = "http://" + [[${domain}]] + ":8080/grade-questions/page/" +  [[${gradeResult.id}]];
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    let linkCopyComplete = document.getElementById('linkCopyComplete').value;
-    alert(linkCopyComplete);
-  }
-</script>
+<div th:replace="~{layout/copyLink :: copyLink(|http://${domain}:8080/grade-questions/page/${gradeResult.id}|)}"></div>
 
 <div th:replace="~{layout/footer :: footer}"></div>

@@ -30,18 +30,6 @@
 
 <input type="hidden" id="linkCopyComplete" th:value="#{create-complete.link-copy-complete}">
 
-
-<script th:inline="javascript">
-  function copyLink() {
-    let textarea = document.createElement("textarea");
-    document.body.appendChild(textarea);
-    textarea.value = "http://" + [[${domain}]] + ":8080/solve-questions/index/" + [[${nickname}]];
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    let linkCopyComplete = document.getElementById('linkCopyComplete').value;
-    alert(linkCopyComplete);
-  }
-</script>
+<div th:replace="~{layout/copyLink :: copyLink(|http://${domain}:8080/solve-questions/index/${nickname}|)}"></div>
 
 <div th:replace="~{layout/footer :: footer}"></div>
