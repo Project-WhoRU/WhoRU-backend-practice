@@ -120,7 +120,7 @@ public class QuestionListService {
 //        questionListRepository.delete(tests);
 //    }
 
-//    public String setNickname(TestSetNicknameRequestDto testSetNicknameRequestDto) {
+//    public String setNickname(NicknameDto testSetNicknameRequestDto) {
         // 테스트에 일단 아이디만 넣기
 //        QuestionList test = QuestionList.builder()
 //            .nickname(testSetNicknameRequestDto.getNickname())

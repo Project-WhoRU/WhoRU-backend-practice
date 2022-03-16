@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AnswerSubmitDto {
+public class AnswerDto {
     @NotBlank
     private String answer;
 }

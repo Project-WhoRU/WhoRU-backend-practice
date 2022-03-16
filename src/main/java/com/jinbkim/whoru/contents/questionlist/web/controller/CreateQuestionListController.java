@@ -46,7 +46,7 @@ public class CreateQuestionListController {
 //    private String domainAddress;
 
 //    @PostMapping("/nickname")
-//    public String requesterNicknameSet(@Valid TestSetNicknameRequestDto testSetNicknameRequestDto, BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+//    public String requesterNicknameSet(@Valid NicknameDto testSetNicknameRequestDto, BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes) {
 //        if (bindingResult.hasErrors())
 //            throw new NotnullException(bindingResult);
 //        try {
