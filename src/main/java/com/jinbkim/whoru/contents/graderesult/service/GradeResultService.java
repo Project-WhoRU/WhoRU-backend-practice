@@ -1,16 +1,10 @@
 package com.jinbkim.whoru.contents.graderesult.service;
 
 import com.jinbkim.whoru.contents.users.domain.Users;
-import com.jinbkim.whoru.contents.users.domain.UsersImplement;
-import com.jinbkim.whoru.exception.customexceptions.GradeResultDoesntExistException;
-import com.jinbkim.whoru.exception.customexceptions.QuestionDoesntExistException;
-import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import com.jinbkim.whoru.contents.graderesult.domain.GradeResult;
 import com.jinbkim.whoru.contents.graderesult.repository.GradeResultRepository;
 import com.jinbkim.whoru.contents.questions.domain.question.Question;
-import com.jinbkim.whoru.contents.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
-import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +35,7 @@ public class GradeResultService {
 //        return gradeResult.getId();
 //    }
 
-    public void setUser(GradeResult gradeResult, UsersImplement user) {
+    public void setUser(GradeResult gradeResult, Users user) {
         gradeResult.setUsers(user);
         gradeResultRepository.save(gradeResult);
     }
@@ -115,7 +109,7 @@ public class GradeResultService {
 
         // 채점결과 저장
 //        gradeResult.setQuestionsCount(questionIds.size());
-        gradeResult.setQuestionsCount(questionList.getQuestions().size());
+//        gradeResult.setQuestionsCount(questionList.getQuestions().size());
         List<Boolean> result = new ArrayList<>();
         int answerCount = 0;
 
@@ -153,7 +147,7 @@ public class GradeResultService {
 //        return gradeResultRepository.findById(gradeResultId).orElseThrow(GradeResultDoesntExistException::new);
 //    }
 
-    public void deleteGradeResult(UsersImplement user) {
+    public void deleteGradeResult(Users user) {
 //        List<GradeResult> gradeResultList = this.gradeResultRepository.findByRequestNickname(nickname).orElseGet(()->null);
         List<GradeResult> gradeResultList = this.gradeResultRepository.findByUsers(user);
         gradeResultList.stream().forEach(this.gradeResultRepository::delete);

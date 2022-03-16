@@ -15,15 +15,17 @@ public class QuestionList {
     private String id;
 //    private List<String> questionIds;
     private List<Question> questions;
-    private Boolean complete;
+    private boolean complete;
+
 
     public QuestionList() {
 //        questionIds = new ArrayList<>();
         questions = new ArrayList<>();
-        complete = new Boolean(false);
+        complete = false;
     }
 
     public void addQuestion(Question question) {
         questions.add(question);
     }
+
 }

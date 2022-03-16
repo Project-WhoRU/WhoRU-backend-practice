@@ -1,17 +1,13 @@
 package com.jinbkim.whoru.contents.questionlist.web.controller;
-import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.graderesult.service.GradeResultService;
 import com.jinbkim.whoru.contents.questionlist.service.QuestionListService;
 import com.jinbkim.whoru.contents.questions.domain.question.Question;
 import com.jinbkim.whoru.contents.questions.service.QuestionService;
-import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
 import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.users.domain.Users;
-import com.jinbkim.whoru.contents.users.domain.UsersImplement;
 import com.jinbkim.whoru.contents.users.repository.UserRepository;
 import com.jinbkim.whoru.contents.users.service.UserService;
-import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
 import com.jinbkim.whoru.validator.QuestionValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -76,6 +72,7 @@ public class CreateQuestionListController {
         Users users = (Users) httpSession.getAttribute("loginUser");
 //        questionListService.addQuestionId(users.getTestId(), questionId);
         questionListService.addQuestion(users.getQuestionList(), question);
+        httpSession.setAttribute("loginUser", users);
         return "redirect:/create-questions/question-type";
     }
 

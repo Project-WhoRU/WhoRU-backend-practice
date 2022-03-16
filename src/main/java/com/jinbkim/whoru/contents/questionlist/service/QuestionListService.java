@@ -5,15 +5,10 @@ import com.jinbkim.whoru.contents.questions.domain.question.Question;
 import com.jinbkim.whoru.contents.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
-import com.jinbkim.whoru.contents.questionlist.web.dto.FindTestPageResponseDto;
-import com.jinbkim.whoru.contents.users.domain.UsersImplement;
+import com.jinbkim.whoru.contents.users.domain.Users;
 import com.jinbkim.whoru.contents.users.repository.UserRepository;
-import com.jinbkim.whoru.exception.customexceptions.TestDoesntExistException;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +57,7 @@ public class QuestionListService {
     }
 
 //    public QuestionList findTest(String nickname) {
-//        UsersImplement users = userRepository.findByNickname(nickname);
+//        Users users = userRepository.findByNickname(nickname);
 //        if (users == null)
 //            return null;
 //        QuestionList questionList = questionListRepository.findById(users.getTestId()).orElseGet(null);
@@ -173,14 +168,14 @@ public class QuestionListService {
         return null;
     }
 
-    public void deleteQuestionList(UsersImplement users) {
+    public void deleteQuestionList(Users users) {
         this.questionListRepository.delete(users.getQuestionList());
         users.setQuestionList(null);
         this.userRepository.save(users);
     }
 
     public void questionListComplete(QuestionList questionList) {
-        questionList.setComplete(Boolean.TRUE);
+        questionList.setComplete(true);
         questionListRepository.save(questionList);
     }
 

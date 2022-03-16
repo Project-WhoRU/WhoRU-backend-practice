@@ -1,24 +1,16 @@
 package com.jinbkim.whoru.contents.questionlist.web.controller;
 
-import com.jinbkim.whoru.config.StaticFinalString;
 import com.jinbkim.whoru.contents.graderesult.domain.GradeResult;
-import com.jinbkim.whoru.contents.graderesult.repository.GradeResultRepository;
 import com.jinbkim.whoru.contents.graderesult.service.GradeResultService;
-import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
 import com.jinbkim.whoru.contents.questions.domain.question.Question;
-import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
 import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
 import com.jinbkim.whoru.contents.questionlist.service.QuestionListService;
 import com.jinbkim.whoru.contents.questionlist.web.dto.AnswerSubmitDto;
-import com.jinbkim.whoru.contents.questionlist.web.dto.FindTestPageResponseDto;
 import com.jinbkim.whoru.contents.questionlist.web.dto.ReadTestByNicknameRequestDto;
 import com.jinbkim.whoru.contents.questionlist.web.dto.TestSetNicknameRequestDto;
 import com.jinbkim.whoru.contents.users.domain.Users;
-import com.jinbkim.whoru.contents.users.domain.UsersImplement;
 import com.jinbkim.whoru.contents.users.repository.UserRepository;
 import com.jinbkim.whoru.contents.users.service.UserService;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -43,15 +35,15 @@ public class SolveQuestionListController {
 
     @GetMapping("/index/{nickname}")
     public String index(@PathVariable String nickname, HttpSession httpSession) {
-        UsersImplement usersImplement = userService.findUser(nickname);
+        Users Users = userService.findUser(nickname);
 
         GradeResult gradeResult = gradeResultService.createGradeResult();
-        gradeResultService.setUser(gradeResult, usersImplement);
+        gradeResultService.setUser(gradeResult, Users);
 
 //        QuestionList questionList = questionListService.findTest(nickname);
 //        String gradeResultId = gradeResultService.setTestId(questionList.getId());
 //        httpSession.setAttribute("testId", questionList.getId());
-//        httpSession.setAttribute("questionListId", usersImplement.getQuestionListId());
+//        httpSession.setAttribute("questionListId", Users.getQuestionListId());
 
 //        httpSession.setAttribute("gradeResultId", gradeResultId);
         httpSession.setAttribute("gradeResult", gradeResult);
@@ -150,14 +142,14 @@ public class SolveQuestionListController {
 
     @PostMapping("/search")
     public String readTestByNickname(ReadTestByNicknameRequestDto readTestByNicknameRequestDto) {
-        UsersImplement user = userRepository.findByNickname(readTestByNicknameRequestDto.getNicknameSearch());
+        Users user = userRepository.findByNickname(readTestByNicknameRequestDto.getNicknameSearch());
         if (user == null)
             return "error/404";
         QuestionList questionList = user.getQuestionList();
 
 //        QuestionList questionList = questionListRepository.findByNickname
 //        QuestionList test = this.questionListService.findTest(readTestByNicknameRequestDto.getNicknameSearch());
-        if (questionList.getQuestions().size() == 0) {
+        if (questionList == null || questionList.getQuestions().size() == 0) {
             return "error/404";
         }
         return "redirect:/solve-questions/index/" + readTestByNicknameRequestDto.getNicknameSearch();

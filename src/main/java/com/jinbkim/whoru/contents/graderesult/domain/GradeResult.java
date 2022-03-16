@@ -30,6 +30,7 @@ public class GradeResult {
         answerSubmit = new ArrayList<>();
         gradeResult = new ArrayList<>();
         answersCount = 0;
+        questionsCount = 0;
     }
 
     public void addAnswerSubmit(String answer) {
@@ -40,5 +41,11 @@ public class GradeResult {
         answerSubmit.set(Integer.parseInt(page)-1, answer);
     }
 
-
+    public void setUsers(Users users) {
+        this.users = users;
+        if (users.getQuestionList() == null)
+            questionsCount = 0;
+        else
+            questionsCount = users.getQuestionList().getQuestions().size();
+    }
 }
