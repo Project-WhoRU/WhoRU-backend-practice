@@ -54,10 +54,10 @@ public class GradeResultService {
         gradeResultRepository.save(gradeResult);
     }
 
-    public void answerSubmit(GradeResult gradeResult, String page, String answer) {
-        if (Integer.parseInt(page) == gradeResult.getAnswerSubmit().size() + 1)  // 새로운 문제의 정답 제출을 추가적으로 해야하는 상황
+    public void answerSubmit(GradeResult gradeResult, Integer page, String answer) {
+        if (page == gradeResult.getAnswerSubmit().size() + 1)  // 새로운 문제의 정답 제출을 추가적으로 해야하는 상황
             gradeResult.addAnswerSubmit(answer);
-        else if (Integer.parseInt(page) <= gradeResult.getAnswerSubmit().size())  // 이전 문제의 정답 제출을 수정해야 하는 상황
+        else if (page <= gradeResult.getAnswerSubmit().size())  // 이전 문제의 정답 제출을 수정해야 하는 상황
             gradeResult.updateAnswerSubmit(page, answer);
         else
             System.out.println("error!");

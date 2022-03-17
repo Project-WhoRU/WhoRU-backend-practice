@@ -39,8 +39,8 @@ public class GradeResult {
         answerSubmit.add(answer);
     }
 
-    public void updateAnswerSubmit(String page, String answer) {
-        answerSubmit.set(Integer.parseInt(page)-1, answer);
+    public void updateAnswerSubmit(Integer page, String answer) {
+        answerSubmit.set(page-1, answer);
     }
 
     public void setUsers(Users users) {

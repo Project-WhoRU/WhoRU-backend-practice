@@ -181,11 +181,11 @@ public class QuestionListService {
         questionListRepository.save(questionList);
     }
 
-    public QuestionSolveDto createQuestionSolveDto(String currentPage, GradeResult gradeResult) {
+    public QuestionSolveDto createQuestionSolveDto(Integer currentPage, GradeResult gradeResult) {
         Users users = gradeResult.getUsers();
         QuestionList questionList = users.getQuestionList();
         Integer totalPage = questionList.getQuestions().size();
-        Question question = questionList.getQuestions().get(Integer.parseInt(currentPage)-1);
+        Question question = questionList.getQuestions().get(currentPage-1);
 
         QuestionSolveDto questionSolveDto = QuestionSolveDto.builder()
             .totalPage(gradeResult.getQuestionsCount())
@@ -193,12 +193,12 @@ public class QuestionListService {
             .currentPage(currentPage)
             .build();
 
-        if (Integer.parseInt(currentPage) != 1)
-            questionSolveDto.setPrevPage(Integer.parseInt(currentPage)-1);
-        if (Integer.parseInt(currentPage) == totalPage)
+        if (currentPage != 1)
+            questionSolveDto.setPrevPage(currentPage-1);
+        if (currentPage == totalPage)
             questionSolveDto.setIsLastPage(true);
         else
-            questionSolveDto.setNextPage(Integer.parseInt(currentPage)+1);
+            questionSolveDto.setNextPage(currentPage+1);
 
         return questionSolveDto;
     }

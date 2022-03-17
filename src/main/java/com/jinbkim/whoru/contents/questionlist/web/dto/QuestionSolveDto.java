@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class QuestionSolveDto {
     private Question question;
-    private String currentPage;
+    private Integer currentPage;
     private Integer totalPage;
     private Integer prevPage;
     private Integer nextPage;
@@ -17,7 +17,7 @@ public class QuestionSolveDto {
 
 
     @Builder
-    public QuestionSolveDto(Question question, String currentPage, int totalPage) {
+    public QuestionSolveDto(Question question, Integer currentPage, Integer totalPage) {
         this.question = question;
         this.currentPage = currentPage;
         this.totalPage = totalPage;

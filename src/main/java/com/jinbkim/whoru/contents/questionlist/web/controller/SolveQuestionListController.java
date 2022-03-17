@@ -76,7 +76,7 @@ public class SolveQuestionListController {
     }
 
     @GetMapping("/page/{currentPage}")
-    public String questionsSolve(@PathVariable String currentPage, Model model, HttpSession httpSession) {
+    public String questionsSolve(@PathVariable Integer currentPage, Model model, HttpSession httpSession) {
 //        String testId = (String)httpSession.getAttribute("testId");
 //        String testId = (String)httpSession.getAttribute("questionListId");
 //        String lastPage = String.valueOf(httpSession.getAttribute("lastPage"));
@@ -124,14 +124,13 @@ public class SolveQuestionListController {
     }
 
     @PostMapping("/submit-answer")
-    public String answerSubmit(String page, @Validated @ModelAttribute("answerSubmit") AnswerDto answer, BindingResult bindingResult, String button, HttpSession httpSession) {
+    public String answerSubmit(Integer page, @Validated @ModelAttribute("answerSubmit") AnswerDto answer, BindingResult bindingResult, String button, HttpSession httpSession) {
+
 //        String gradeResultId = (String)httpSession.getAttribute("gradeResultId");
         GradeResult gradeResult = (GradeResult)httpSession.getAttribute("gradeResult");
 //        gradeResultService.addAnswerSubmit(gradeResultId, page, answer.getAnswer());
 //        gradeResultService.addAnswerSubmit(gradeResult.getId(), page, answer.getAnswer());
         gradeResultService.answerSubmit(gradeResult, page, answer.getAnswer());
-        int nextPage = Integer.parseInt(page)+1;
-        int beforePage= Integer.parseInt(page)-1;
 
         if (bindingResult.hasErrors()) {
             httpSession.setAttribute("answerSubmitError", answer);
@@ -139,9 +138,9 @@ public class SolveQuestionListController {
         }
 
         if (button.equals("before"))
-            return "redirect:/solve-questions/page/"+beforePage;
+            return "redirect:/solve-questions/page/"+(page-1);
         else if (button.equals("next"))
-            return "redirect:/solve-questions/page/"+nextPage;
+            return "redirect:/solve-questions/page/"+(page+1);
         else if (button.equals("submit"))
             return "redirect:/grade-questions";
         return null;
