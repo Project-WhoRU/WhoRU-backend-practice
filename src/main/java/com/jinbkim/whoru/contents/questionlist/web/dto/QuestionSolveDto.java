@@ -1,0 +1,29 @@
+package com.jinbkim.whoru.contents.questionlist.web.dto;
+
+import com.jinbkim.whoru.contents.questions.domain.question.Question;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class QuestionSolveDto {
+    private Question question;
+    private String currentPage;
+    private Integer totalPage;
+    private Integer prevPage;
+    private Integer nextPage;
+    private Boolean isLastPage;
+
+
+    @Builder
+    public QuestionSolveDto(Question question, String currentPage, int totalPage) {
+        this.question = question;
+        this.currentPage = currentPage;
+        this.totalPage = totalPage;
+        this.prevPage = null;
+        this.nextPage = null;
+        this.isLastPage = null;
+    }
+
+}

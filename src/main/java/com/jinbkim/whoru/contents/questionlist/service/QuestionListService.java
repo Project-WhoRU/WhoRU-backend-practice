@@ -1,6 +1,8 @@
 package com.jinbkim.whoru.contents.questionlist.service;
 
+import com.jinbkim.whoru.contents.graderesult.domain.GradeResult;
 import com.jinbkim.whoru.contents.questionlist.repository.QuestionListRepository;
+import com.jinbkim.whoru.contents.questionlist.web.dto.QuestionSolveDto;
 import com.jinbkim.whoru.contents.questions.domain.question.Question;
 import com.jinbkim.whoru.contents.questions.repository.QuestionRepository;
 import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
@@ -179,4 +181,25 @@ public class QuestionListService {
         questionListRepository.save(questionList);
     }
 
+    public QuestionSolveDto createQuestionSolveDto(String currentPage, GradeResult gradeResult) {
+        Users users = gradeResult.getUsers();
+        QuestionList questionList = users.getQuestionList();
+        Integer totalPage = questionList.getQuestions().size();
+        Question question = questionList.getQuestions().get(Integer.parseInt(currentPage)-1);
+
+        QuestionSolveDto questionSolveDto = QuestionSolveDto.builder()
+            .totalPage(gradeResult.getQuestionsCount())
+            .question(question)
+            .currentPage(currentPage)
+            .build();
+
+        if (Integer.parseInt(currentPage) != 1)
+            questionSolveDto.setPrevPage(Integer.parseInt(currentPage)-1);
+        if (Integer.parseInt(currentPage) == totalPage)
+            questionSolveDto.setIsLastPage(true);
+        else
+            questionSolveDto.setNextPage(Integer.parseInt(currentPage)+1);
+
+        return questionSolveDto;
+    }
 }

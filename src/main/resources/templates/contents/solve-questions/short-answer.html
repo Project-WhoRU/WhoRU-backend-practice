@@ -7,11 +7,11 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" th:text="|${page}/${lastPage}|" }></h5>
+          <h5 class="modal-title" th:text="|${questionSolveDto.currntPage}/${questionSolveDto.totalPage}|" }></h5>
         </div>
 
         <div class="modal-body">
-          <p th:text="${question.question}"></p>
+          <p th:text="${questionSolveDto.question.question}"></p>
 
           <div class="form-group">
             <label for="answer" th:text="#{question.answer}"></label>
@@ -24,7 +24,7 @@
 
           <div th:replace="~{layout/solveQuestionButton :: solveQuestionButton}"></div>
 
-          <input type="hidden" name="page" th:value="${page}">
+          <input type="hidden" name="page" th:value="${questionSolveDto.currentPage}">
 
         </div>
       </div>

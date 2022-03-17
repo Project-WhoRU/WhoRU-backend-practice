@@ -84,7 +84,7 @@ public class CreateQuestionListController {
     }
 
     @PostMapping("/submit-questionList")
-    public String questionListComplete(@Valid @ModelAttribute("question")QuestionDto questionDto, BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
+    public String submitQuestionList(@Valid @ModelAttribute("question")QuestionDto questionDto, BindingResult bindingResult, HttpSession httpSession, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors())
             return "contents/create-questions/"+ questionDto.getType();
         //        String questionId = questionService.addQuestion(questionDto);
@@ -100,9 +100,18 @@ public class CreateQuestionListController {
 //        questionListService.completeTest(users.getTestId());
         userService.addUser(users);
 
-        redirectAttributes.addAttribute("domain", httpServletRequest.getServerName());
-        redirectAttributes.addAttribute("nickname", users.getNickname());
+//        redirectAttributes.addAttribute("domain", httpServletRequest.getServerName());
+//        redirectAttributes.addAttribute("nickname", users.getNickname());
         return "redirect:/create-questions/complete";
+    }
+
+    @GetMapping("/complete")
+    public String questionListComplete(HttpServletRequest httpServletRequest, HttpSession httpSession, Model model) {
+
+        Users users = (Users) httpSession.getAttribute("loginUser");
+        model.addAttribute("domain", httpServletRequest.getServerName());
+        model.addAttribute("nickname", users.getNickname());
+        return "contents/create-questions/complete";
     }
 
 //    @PostMapping("/validate/nickname")

@@ -2,6 +2,7 @@ package com.jinbkim.whoru.contents.questionlist.web.controller;
 
 import com.jinbkim.whoru.contents.graderesult.domain.GradeResult;
 import com.jinbkim.whoru.contents.graderesult.service.GradeResultService;
+import com.jinbkim.whoru.contents.questionlist.web.dto.QuestionSolveDto;
 import com.jinbkim.whoru.contents.questions.domain.question.Question;
 import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
 import com.jinbkim.whoru.contents.questionlist.service.QuestionListService;
@@ -74,29 +75,34 @@ public class SolveQuestionListController {
         return "redirect:/solve-questions/page/1";
     }
 
-    @GetMapping("/page/{page}")
-    public String questionsSolve(@PathVariable String page, Model model, HttpSession httpSession) {
+    @GetMapping("/page/{currentPage}")
+    public String questionsSolve(@PathVariable String currentPage, Model model, HttpSession httpSession) {
 //        String testId = (String)httpSession.getAttribute("testId");
 //        String testId = (String)httpSession.getAttribute("questionListId");
 //        String lastPage = String.valueOf(httpSession.getAttribute("lastPage"));
         GradeResult gradeResult = (GradeResult)httpSession.getAttribute("gradeResult");
-        String lastPage = Integer.toString(gradeResult.getQuestionsCount());
+
+        QuestionSolveDto questionSolveDto = questionListService.createQuestionSolveDto(currentPage, gradeResult);
+
+//        String lastPage = Integer.toString(gradeResult.getQuestionsCount());
 
 //        FindTestPageResponseDto findTestPageResponseDto = questionListService.findTestPage(testId, page);
 
-        Users users = gradeResult.getUsers();
-        QuestionList questionList = users.getQuestionList();
-        Question question = questionList.getQuestions().get(Integer.parseInt(page)-1);
-        boolean isLastPage = false;
-        if (Integer.parseInt(page) == questionList.getQuestions().size())
-            isLastPage = true;
+//        Users users = gradeResult.getUsers();
+//        QuestionList questionList = users.getQuestionList();
+//        Question question = questionList.getQuestions().get(Integer.parseInt(page)-1);
+//        boolean isLastPage = false;
+//        if (Integer.parseInt(page) == questionList.getQuestions().size())
+//            isLastPage = true;
 
 //        QuestionDto question = findTestPageResponseDto.getQuestion();
 //        Boolean isLastPage = findTestPageResponseDto.getIsLastPage();
+        model.addAttribute("questionSolveDto", questionSolveDto);
 
-        model.addAttribute("question", question);
-        model.addAttribute("page", page);
-        model.addAttribute("lastPage", lastPage);
+
+//        model.addAttribute("question", question);
+//        model.addAttribute("page", page);
+//        model.addAttribute("lastPage", lastPage);
 //        model.addAttribute("domain-address", domainAddress);
 
         if (httpSession.getAttribute("answerSubmitError") != null) {
@@ -105,14 +111,16 @@ public class SolveQuestionListController {
         }
         model.addAttribute("answerSubmit", new AnswerDto());
 
-        if (Integer.parseInt(page) != 1)  // 이전 페이지가 존재하면
-            model.addAttribute("prevPage", Integer.parseInt(page)-1);
-        if (isLastPage) // 마지막 페이지 이면
-            model.addAttribute("isLastPage", true);
-        else  // 마지막 페이지가 아니면
-            model.addAttribute("nextPage", Integer.parseInt(page)+1);
+//        if (Integer.parseInt(page) != 1)  // 이전 페이지가 존재하면
+//            model.addAttribute("prevPage", Integer.parseInt(page)-1);
+//        if (isLastPage) // 마지막 페이지 이면
+//            model.addAttribute("isLastPage", true);
+//        else  // 마지막 페이지가 아니면
+//            model.addAttribute("nextPage", Integer.parseInt(page)+1);
 
-        return "contents/solve-questions/"+question.getType();
+        String questionType = questionSolveDto.getQuestion().getType();
+
+        return "contents/solve-questions/"+questionType;
     }
 
     @PostMapping("/submit-answer")
