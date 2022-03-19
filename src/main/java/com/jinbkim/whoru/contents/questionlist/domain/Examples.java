@@ -1,4 +1,4 @@
-package com.jinbkim.whoru.contents.questions.domain.question;
+package com.jinbkim.whoru.contents.questionlist.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class Examples {
+
     private String ex1;
     private String ex2;
     private String ex3;

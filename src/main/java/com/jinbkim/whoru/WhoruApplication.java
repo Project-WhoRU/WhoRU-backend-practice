@@ -8,8 +8,8 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:/app.properties")
 public class WhoruApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WhoruApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WhoruApplication.class, args);
+    }
 
 }

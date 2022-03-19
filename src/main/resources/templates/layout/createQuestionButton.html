@@ -1,5 +1,8 @@
 <div th:fragment="createQuestionButton">
-  <a href="/create-questions/question-type" role="button" class="btn btn-secondary" th:text="#{question.back}"></a>
-  <button type="submit" class="btn btn-success" th:text="#{question.next}"></button>
-  <button type="submit" formaction="/create-questions/submit-questionList" class="btn btn-primary" th:text="#{question.complete}"></button>
+  <a class="btn btn-secondary" href="/create-questions/question-type" role="button"
+     th:text="#{question.back}"></a>
+  <button class="btn btn-success" name="complete" th:text="#{question.next}" type="submit"
+          value=false></button>
+  <button class="btn btn-primary" name="complete" th:text="#{question.complete}" type="submit"
+          value=true></button>
 </div>

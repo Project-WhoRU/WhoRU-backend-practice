@@ -13,6 +13,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 public class SignUpDto {
+
     @NotBlank
     private String nickname;
     @NotBlank

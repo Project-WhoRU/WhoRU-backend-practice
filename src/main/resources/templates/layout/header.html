@@ -3,19 +3,19 @@
   <html xmlns:th="http://www.thymeleaf.org">
   <html lang="kr">
   <head>
-    <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <meta charset="UTF-8" content="text/html" http-equiv="content-type">
     <title>WhoRU?</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
 
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          rel="stylesheet">
 
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
     <link href="/css/style.css" rel="stylesheet">
   </head>
 
@@ -23,30 +23,31 @@
     <div class="container-fluid">
       <a class="navbar-brand" th:href="${home}" th:text="#{header.title}"></a>
       <div class="collapse navbar-collapse mt-3" id="navbarSupportedContent">
-        <form class="d-flex" method="POST" action="/solve-questions/search">
-          <input class="form-control" type="search" name="nickname"
-                 id="nickname" th:placeholder="#{header.nickname-search}">
-          <button class="btn btn-outline-success" type="submit"
-                  th:text="#{header.nickname-search-button}"></button>
+        <form action="/solve-questions/search" class="d-flex" method="POST">
+          <input class="form-control" id="nickname" name="nickname"
+                 th:placeholder="#{header.nickname-search}" type="search">
+          <button class="btn btn-outline-success" th:text="#{header.nickname-search-button}"
+                  type="submit"></button>
         </form>
       </div>
 
 
       <th:block th:if="${session.loginUser}">
         <div class="navbar-brand" th:text="|${session.loginUser.getNickname()}님|"></div>
-        <a class="navbar-brand" href="/users/logout" th:text="|#{header.logout}     |" style="color:red"></a>
+        <a class="navbar-brand" href="/users/logout" style="color:red"
+           th:text="|#{header.logout}     |"></a>
       </th:block>
 
       <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                data-toggle="dropdown" aria-expanded="true" th:text="#{header.language}">
+        <button aria-expanded="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                id="dropdownMenu1" th:text="#{header.language}" type="button">
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <ul aria-labelledby="dropdownMenu1" class="dropdown-menu" role="menu">
 
-          <form method="POST" action="/set/language">
-            <a role="menuitem" tabindex="-1" href="/language?language=en">English</a></li>
-            <a role="menuitem" tabindex="-1" href="/language?language=ko">한국어</a></li>
+          <form action="/set/language" method="POST">
+            <a href="/language?language=en" role="menuitem" tabindex="-1">English</a></li>
+            <a href="/language?language=ko" role="menuitem" tabindex="-1">한국어</a></li>
           </form>
 
         </ul>

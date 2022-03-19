@@ -1,4 +1,4 @@
-package com.jinbkim.whoru.contents.questions.domain.question;
+package com.jinbkim.whoru.contents.questionlist.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 public class Question {
+
     @Id
     private String id;
     private String type;
@@ -15,6 +16,8 @@ public class Question {
     private Examples examples;
     private String answer;
 
+
+    // constructor
     @Builder
     public Question(String type, String question, Examples examples, String answer) {
         this.type = type;

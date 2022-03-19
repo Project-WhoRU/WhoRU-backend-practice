@@ -1,7 +1,7 @@
 <div th:replace="~{layout/header ::header('/')}"></div>
 
 <div class="mx-auto" style="width: 500px;">
-  <main role="main" class="inner cover">
+  <main class="inner cover" role="main">
     <h1 class="cover-heading" th:text="#{solve-complete.title}"></h1>
 
     <div class="jumbotron">
@@ -9,7 +9,7 @@
       <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
       <div th:replace="~{layout/gradeResult:: gradeResult(${gradeResult})}"></div>
     </div>
-    <a href="/" role="button" class="btn btn-lg btn-secondary"
+    <a class="btn btn-lg btn-secondary" href="/" role="button"
        th:text="#{solve-complete.make-test}"></a>
 
   </main>

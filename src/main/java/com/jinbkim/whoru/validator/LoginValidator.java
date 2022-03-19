@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+// 로그인이 가능한지 검증
 @Component
 @RequiredArgsConstructor
 public class LoginValidator implements Validator {
@@ -24,9 +25,11 @@ public class LoginValidator implements Validator {
     public void validate(Object target, Errors errors) {
         LoginDto user = (LoginDto) target;
 
-        if (!userRepository.existsByNickname(user.getNickname()))
-            errors.rejectValue("nickname","noNickname", null);
-        if (!userService.isLogin(user))
-            errors.rejectValue("password","checkingPassword", null);
+        if (!userRepository.existsByNickname(user.getNickname())) {
+            errors.rejectValue("nickname", "noNickname", null);
+        }
+        if (!userService.isLoginPossible(user)) {
+            errors.rejectValue("password", "checkingPassword", null);
+        }
     }
 }

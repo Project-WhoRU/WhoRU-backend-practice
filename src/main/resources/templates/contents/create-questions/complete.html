@@ -1,17 +1,21 @@
 <div th:replace="~{layout/header ::header('/')}"></div>
 
 <div class="mx-auto" style="width: 500px;">
-  <main role="main" class="inner cover">
+  <main class="inner cover" role="main">
     <h1 class="cover-heading" th:text="#{create-complete.title}"></h1>
-    <div class="lead" th:text="#{create-complete.description}"></div> <br>
+    <div class="lead" th:text="#{create-complete.description}"></div>
+    <br>
     <div class="lead">
-      <a href="#" role="button" onclick="copyLink()" class="btn btn-lg btn-secondary" th:text="#{create-complete.link-copy}"></a>
-      <a href="/" role="button" class="btn btn-lg btn-primary" th:text="#{create-complete.back}"></a>
+      <a class="btn btn-lg btn-secondary" href="#" onclick="copyLink()" role="button"
+         th:text="#{create-complete.link-copy}"></a>
+      <a class="btn btn-lg btn-primary" href="/" role="button"
+         th:text="#{create-complete.back}"></a>
     </div>
   </main>
-  <input type="hidden" id="linkCopyComplete" th:value="#{create-complete.link-copy-complete}">
+  <input id="linkCopyComplete" th:value="#{create-complete.link-copy-complete}" type="hidden">
 </div>
 
-<div th:replace="~{layout/copyLink :: copyLink(|http://${domain}:8080/solve-questions/index/${nickname}|)}"></div>
+<div
+    th:replace="~{layout/copyLink :: copyLink(|http://${domain}:8080/solve-questions/index/${nickname}|)}"></div>
 
 <div th:replace="~{layout/footer :: footer}"></div>

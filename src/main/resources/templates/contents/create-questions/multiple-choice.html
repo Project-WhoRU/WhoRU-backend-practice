@@ -1,43 +1,43 @@
 <div th:replace="~{layout/header ::header('/')}"></div>
 
 <div class="mx-auto" style="width: 500px;">
-  <form method="post" action="/create-questions/add-question" th:object="${question}">
-    <input type="hidden" name="type" value="multiple-choice">
+  <form action="/create-questions/add-question" method="post" th:object="${question}">
+    <input name="type" type="hidden" value="multiple-choice">
 
     <div class="form-group">
       <label for="question" th:text="#{question.question}"></label>
-      <input type="text" th:errorclass="field-error" class="form-control" id="question"
-             th:field="*{question}">
+      <input class="form-control" id="question" th:errorclass="field-error" th:field="*{question}"
+             type="text">
     </div>
     <div class="field-error" th:errors="*{question}"></div>
 
     <div class="form-group">
-      <label for="example1" class="col-form-label " th:text="#{question.ex1}"></label>
-      <input type="text" th:errorclass="field-error" class="form-control" id="example1"
-             th:field="*{examples.ex1}">
+      <label class="col-form-label " for="example1" th:text="#{question.ex1}"></label>
+      <input class="form-control" id="example1" th:errorclass="field-error" th:field="*{examples.ex1}"
+             type="text">
       <div class="field-error" th:errors="*{examples.ex1}"></div>
     </div>
 
     <div class="form-group">
-      <label for="example2" class="col-form-label" th:text="#{question.ex2}"></label>
-      <input type="text" th:errorclass="field-error" class="form-control" id="example2"
-             th:field="*{examples.ex2}">
+      <label class="col-form-label" for="example2" th:text="#{question.ex2}"></label>
+      <input class="form-control" id="example2" th:errorclass="field-error" th:field="*{examples.ex2}"
+             type="text">
       <div class="field-error" th:errors="*{examples.ex2}"></div>
     </div>
 
     <div class="form-group">
-      <label for="example3" class="col-form-label" th:text="#{question.ex3}"></label>
-      <input type="text" th:errorclass="field-error" class="form-control" id="example3"
-             th:field="*{examples.ex3}">
+      <label class="col-form-label" for="example3" th:text="#{question.ex3}"></label>
+      <input class="form-control" id="example3" th:errorclass="field-error" th:field="*{examples.ex3}"
+             type="text">
       <div class="field-error" th:errors="*{examples.ex3}"></div>
     </div>
 
     <div class="form-group">
       <label for="answer" th:text="#{question.answer}"></label>
-      <select type="text" class="form-control" id="answer" th:field="*{answer}">
-        <option value="1" th:text="#{question.answer1}"></option>
-        <option value="2" th:text="#{question.answer2}"></option>
-        <option value="3" th:text="#{question.answer3}"></option>
+      <select class="form-control" id="answer" th:field="*{answer}" type="text">
+        <option th:text="#{question.answer1}" value="1"></option>
+        <option th:text="#{question.answer2}" value="2"></option>
+        <option th:text="#{question.answer3}" value="3"></option>
       </select>
     </div>
 

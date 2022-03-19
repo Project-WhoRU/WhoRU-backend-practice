@@ -1,22 +1,26 @@
-<div th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
+<div
+    th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
 
 <div class="mx-auto" style="width: 500px;">
-  <main role="main" class="inner cover">
+  <main class="inner cover" role="main">
     <h1 class="cover-heading" th:text="#{solve-complete.title}"></h1>
 
     <div class="jumbotron">
-    <p th:text="|#{solve-complete.examiner} : ${gradeResult.users.nickname}|"></p>
-    <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
-    <div th:replace="~{layout/gradeResult:: gradeResult(${gradeResult})}"></div>
+      <p th:text="|#{solve-complete.examiner} : ${gradeResult.users.nickname}|"></p>
+      <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResult.questionsCount}|"></p>
+      <div th:replace="~{layout/gradeResult:: gradeResult(${gradeResult})}"></div>
     </div>
 
-    <input type="hidden" id="linkCopyComplete" th:value="#{solve-complete.link-copy-complete}">
-    <a href="/" role="button" class="btn btn-lg btn-secondary" th:text="#{solve-complete.make-test}"></a>
-    <a href="#" onclick="copyLink()" role="button" class="btn btn-lg btn-primary" th:text="#{solve-complete.link-copy}"></a>
+    <input id="linkCopyComplete" th:value="#{solve-complete.link-copy-complete}" type="hidden">
+    <a class="btn btn-lg btn-secondary" href="/" role="button"
+       th:text="#{solve-complete.make-test}"></a>
+    <a class="btn btn-lg btn-primary" href="#" onclick="copyLink()" role="button"
+       th:text="#{solve-complete.link-copy}"></a>
 
   </main>
 </div>
 
-<div th:replace="~{layout/copyLink :: copyLink(|http://${domain}:8080/grade-questions/page/${gradeResult.id}|)}"></div>
+<div
+    th:replace="~{layout/copyLink :: copyLink(|http://${domain}:8080/grade-questions/page/${gradeResult.id}|)}"></div>
 
 <div th:replace="~{layout/footer :: footer}"></div>

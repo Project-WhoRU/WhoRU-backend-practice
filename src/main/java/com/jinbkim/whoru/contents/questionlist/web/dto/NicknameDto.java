@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NicknameDto {
+
     @NotBlank
     private String nickname;
 }

@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
+
     private final UserService userService;
     private final QuestionListService questionListService;
     private final SignUpValidator signUpValidator;
@@ -52,25 +53,15 @@ public class UserController {
         dataBinder.addValidators(signUpValidator);
     }
 
+    // read
     @GetMapping("/login")
-    public String login(Model model, HttpServletRequest httpServletRequest, HttpSession httpSession) {
+    public String login(Model model, HttpServletRequest httpServletRequest,
+        HttpSession httpSession) {
         String oldURL = httpServletRequest.getHeader("Referer");
         httpSession.setAttribute("oldURL", oldURL);
 
         model.addAttribute("login", new LoginDto());
         return "contents/users/login";
-    }
-
-    @PostMapping("/login")
-    public String login(@Validated @ModelAttribute("login") LoginDto loginDto, BindingResult bindingResult, HttpSession httpSession) {
-        if (bindingResult.hasErrors())
-            return "contents/users/login";
-
-        Users users = userRepository.findByNickname(loginDto.getNickname());
-        httpSession.setAttribute("loginUser", users);
-
-        String oldURL = (String)httpSession.getAttribute("oldURL");
-        return "redirect:"+oldURL;
     }
 
     @GetMapping("/sign-up")
@@ -79,10 +70,63 @@ public class UserController {
         return "contents/users/sign-up";
     }
 
+    @GetMapping("/detail")
+    public String userDetail(Model model, HttpSession httpSession,
+        HttpServletRequest httpServletRequest) {
+        Users users = (Users) httpSession.getAttribute("loginUser");
+        if (users.getQuestionList() == null) {
+            QuestionList questionList = questionListService.createQuestionList();
+            userService.setQuestionList(users, questionList);
+        }
+        QuestionList questionList = users.completeCheckAndGetQuestionList();
+        userRepository.save(users);
+
+        if (questionList.getQuestions().size() == 0) {
+            model.addAttribute("testEmpty", true);
+        }
+        model.addAttribute("domain", httpServletRequest.getServerName());
+        model.addAttribute("nickname", users.getNickname());
+
+        return "contents/users/user-detail";
+    }
+
+    @GetMapping("/login-resolver")
+    public String loginResolver(HttpSession httpSession) {
+        Users users = (Users) httpSession.getAttribute("loginUser");
+        if (users == null) {
+            return "redirect:/users/login";
+        }
+
+        Users Users = userRepository.findById(users.getId()).orElseGet(() -> null);
+        if (Users == null) {
+            return "redirect:/users/login";
+        }
+
+        return "redirect:/users/detail";
+    }
+
+
+    // update
+    @PostMapping("/login")
+    public String login(@Validated @ModelAttribute("login") LoginDto loginDto,
+        BindingResult bindingResult, HttpSession httpSession) {
+        if (bindingResult.hasErrors()) {
+            return "contents/users/login";
+        }
+
+        Users users = userRepository.findByNickname(loginDto.getNickname());
+        httpSession.setAttribute("loginUser", users);
+
+        String oldURL = (String) httpSession.getAttribute("oldURL");
+        return "redirect:" + oldURL;
+    }
+
     @PostMapping("/sign-up")
-    public String signUp(@Validated @ModelAttribute("signUp") SignUpDto signUpDto , BindingResult bindingResult, HttpSession httpSession) {
-        if (bindingResult.hasErrors())
+    public String signUp(@Validated @ModelAttribute("signUp") SignUpDto signUpDto,
+        BindingResult bindingResult, HttpSession httpSession) {
+        if (bindingResult.hasErrors()) {
             return "contents/users/sign-up";
+        }
 
         QuestionList questionList = questionListService.createQuestionList();
         Users users = userService.createUser(signUpDto, questionList);
@@ -91,50 +135,14 @@ public class UserController {
         return "redirect:/create-questions/question-type";
     }
 
-    @GetMapping("/detail")
-    public String userDetail(Model model, HttpSession httpSession, HttpServletRequest httpServletRequest) {
-        Users users = (Users) httpSession.getAttribute("loginUser");
-
-        if (users.getQuestionList() == null) {
-//            QuestionList questionList = this.questionListService.addTest();
-//            users.setTestId(questionList.getId());
-//            this.userRepository.save(users);
-            QuestionList questionList = questionListService.createQuestionList();
-            userService.setQuestionList(users, questionList);
-        }
-//        QuestionList questionList = this.questionListRepository.findById(users.getTestId()).orElseThrow(TestDoesntExistException::new);
-       QuestionList questionList = users.completeCheckAndGetQuestionList();
-       userRepository.save(users);
-
-        if (questionList.getQuestions().size() == 0) {
-            model.addAttribute("testEmpty", true);
-        }
-
-        model.addAttribute("domain", httpServletRequest.getServerName());
-        model.addAttribute("nickname", users.getNickname());
-
-        return "contents/users/user-detail";
-    }
-
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         httpSession.removeAttribute("loginUser");
         return "redirect:/";
     }
 
-    @GetMapping("/loginResolver")
-    public String loginResolver(HttpSession httpSession) {
-        Users users = (Users)httpSession.getAttribute("loginUser");
-        if (users == null)
-            return "redirect:/users/login";
 
-        Users Users = userRepository.findById(users.getId()).orElseGet(()->null);
-        if (Users == null)
-            return "redirect:/users/login";
-
-        return "redirect:/users/detail";
-    }
-
+    // delete
     @GetMapping("/delete-questionList")
     public String deleteQuestionList(HttpSession httpSession) {
         Users users = (Users) httpSession.getAttribute("loginUser");
@@ -148,8 +156,9 @@ public class UserController {
         Users users = (Users) httpSession.getAttribute("loginUser");
         gradeResultService.deleteUnCompleteGradeResult(users);
         List<GradeResult> gradeResultList = gradeResultRepository.findByUsers(users);
-        if (gradeResultList.size() != 0)
+        if (gradeResultList.size() != 0) {
             model.addAttribute("gradeResultList", gradeResultList);
+        }
 
         return "contents/users/grade-result-list";
     }

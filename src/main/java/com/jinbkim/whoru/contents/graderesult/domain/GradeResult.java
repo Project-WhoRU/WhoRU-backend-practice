@@ -11,23 +11,20 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 public class GradeResult {
+
     @Id
     private String id;
     private Users users;
     private String nickname;
-//    private String testId;
-//    private String requestNickname;
-//    private String responseNickname;
     private List<String> answerSubmit;
     private List<Boolean> gradeResult;
     private int questionsCount;
     private int answersCount;
     private boolean complete;
 
+    // constructor
     @Builder
     public GradeResult() {
-//        this.testId = testId;
-//        this.responseNickname = responseNickname;
         answerSubmit = new ArrayList<>();
         gradeResult = new ArrayList<>();
         answersCount = 0;
@@ -35,19 +32,24 @@ public class GradeResult {
         complete = false;
     }
 
+
+    // setter
+    public void setUsers(Users users) {
+        this.users = users;
+        if (users.getQuestionList() == null) {
+            questionsCount = 0;
+        } else {
+            questionsCount = users.getQuestionList().getQuestions().size();
+        }
+    }
+
+
+    // etc
     public void addAnswerSubmit(String answer) {
         answerSubmit.add(answer);
     }
 
     public void updateAnswerSubmit(Integer page, String answer) {
-        answerSubmit.set(page-1, answer);
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-        if (users.getQuestionList() == null)
-            questionsCount = 0;
-        else
-            questionsCount = users.getQuestionList().getQuestions().size();
+        answerSubmit.set(page - 1, answer);
     }
 }

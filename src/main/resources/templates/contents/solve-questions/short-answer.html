@@ -1,13 +1,15 @@
-<div th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
+<div
+    th:replace="~{layout/header ::header(|/solve-questions/index/${session.gradeResult.users.nickname}|)}"></div>
 
 <div class="mx-auto" style="width: 500px;">
-  <form method="post" action="/solve-questions/submit-answer" th:object="${answerSubmit}">
+  <form action="/solve-questions/submit-answer" method="post" th:object="${answerSubmit}">
 
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" th:text="|${questionSolveDto.currentPage}/${questionSolveDto.totalPage}|" }></h5>
+          <h5 class="modal-title"
+              th:text="|${questionSolveDto.currentPage}/${questionSolveDto.totalPage}|" }></h5>
         </div>
 
         <div class="modal-body">
@@ -15,7 +17,7 @@
 
           <div class="form-group">
             <label for="answer" th:text="#{question.answer}"></label>
-            <input type="text" class="form-control" id="answer" th:field="*{answer}">
+            <input class="form-control" id="answer" th:field="*{answer}" type="text">
           </div>
 
           <th:block th:if="${answerSubmitError}">
@@ -24,7 +26,7 @@
 
           <div th:replace="~{layout/solveQuestionButton :: solveQuestionButton}"></div>
 
-          <input type="hidden" name="page" th:value="${questionSolveDto.currentPage}">
+          <input name="page" th:value="${questionSolveDto.currentPage}" type="hidden">
 
         </div>
       </div>

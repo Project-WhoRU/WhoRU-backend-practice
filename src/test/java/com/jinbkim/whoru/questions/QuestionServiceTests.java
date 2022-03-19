@@ -1,9 +1,6 @@
 package com.jinbkim.whoru.questions;
 
-import com.jinbkim.whoru.contents.questions.repository.QuestionRepository;
-import com.jinbkim.whoru.contents.questions.service.QuestionService;
-import com.jinbkim.whoru.contents.questions.web.dto.QuestionDto;
-import org.junit.jupiter.api.Assertions;
+import com.jinbkim.whoru.contents.questionlist.repository.QuestionRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,6 @@ public class QuestionServiceTests {
     @Autowired
     QuestionRepository questionRepository;
     @Autowired
-    QuestionService questionService;
 
     @Test
     @DisplayName("addQuestion : 제대로된 질문 생성시")

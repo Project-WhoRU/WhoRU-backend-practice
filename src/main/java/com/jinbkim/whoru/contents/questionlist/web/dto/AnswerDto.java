@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AnswerDto {
+
     @NotBlank
     private String answer;
 }

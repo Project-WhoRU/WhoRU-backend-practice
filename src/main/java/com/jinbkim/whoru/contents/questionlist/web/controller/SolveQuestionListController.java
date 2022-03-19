@@ -2,15 +2,13 @@ package com.jinbkim.whoru.contents.questionlist.web.controller;
 
 import com.jinbkim.whoru.contents.graderesult.domain.GradeResult;
 import com.jinbkim.whoru.contents.graderesult.service.GradeResultService;
-import com.jinbkim.whoru.contents.questionlist.web.dto.QuestionSolveDto;
-import com.jinbkim.whoru.contents.questions.domain.question.Question;
 import com.jinbkim.whoru.contents.questionlist.domain.QuestionList;
 import com.jinbkim.whoru.contents.questionlist.service.QuestionListService;
 import com.jinbkim.whoru.contents.questionlist.web.dto.AnswerDto;
 import com.jinbkim.whoru.contents.questionlist.web.dto.NicknameDto;
+import com.jinbkim.whoru.contents.questionlist.web.dto.QuestionSolveDto;
 import com.jinbkim.whoru.contents.users.domain.Users;
 import com.jinbkim.whoru.contents.users.repository.UserRepository;
-import com.jinbkim.whoru.contents.users.service.UserService;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,28 +26,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 @RequestMapping("/solve-questions")
 public class SolveQuestionListController {
+
     private final QuestionListService questionListService;
     private final GradeResultService gradeResultService;
-    private final UserService userService;
     private final UserRepository userRepository;
 
+    // read
     @GetMapping("/index/{nickname}")
     public String index(@PathVariable String nickname, HttpSession httpSession) {
-        Users Users = userService.findUser(nickname);
-
+        Users users = userRepository.findByNickname(nickname);
         GradeResult gradeResult = gradeResultService.createGradeResult();
-        gradeResultService.setUser(gradeResult, Users);
-
-//        QuestionList questionList = questionListService.findTest(nickname);
-//        String gradeResultId = gradeResultService.setTestId(questionList.getId());
-//        httpSession.setAttribute("testId", questionList.getId());
-//        httpSession.setAttribute("questionListId", Users.getQuestionListId());
-
-//        httpSession.setAttribute("gradeResultId", gradeResultId);
+        gradeResultService.setUser(gradeResult, users);
         httpSession.setAttribute("gradeResult", gradeResult);
-
-//        httpSession.setAttribute("lastPage", questionList.getQuestionIds().size());
-//        httpSession.setAttribute("requesterNickname", nickname);
         return "/contents/solve-questions/index";
     }
 
@@ -59,106 +47,78 @@ public class SolveQuestionListController {
         return "contents/solve-questions/set-nickname";
     }
 
-    @PostMapping("/set-nickname")
-    public String setNickname(@Validated @ModelAttribute("nickname") NicknameDto nickname, BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttribute) {
-        if (bindingResult.hasErrors())
-            return "contents/solve-questions/set-nickname";
-
-//        String gradeResultId = (String)httpSession.getAttribute("gradeResultId");
-        GradeResult gradeResult = (GradeResult)httpSession.getAttribute("gradeResult");
-
-//        redirectAttribute.addFlashAttribute("domain-address", domainAddress);
-
-
-//        gradeResultService.setNickname(gradeResultId, nickname.getNickname());
-        gradeResultService.setNickname(gradeResult, nickname.getNickname());
-        return "redirect:/solve-questions/page/1";
-    }
-
     @GetMapping("/page/{currentPage}")
-    public String questionsSolve(@PathVariable Integer currentPage, Model model, HttpSession httpSession) {
-//        String testId = (String)httpSession.getAttribute("testId");
-//        String testId = (String)httpSession.getAttribute("questionListId");
-//        String lastPage = String.valueOf(httpSession.getAttribute("lastPage"));
-        GradeResult gradeResult = (GradeResult)httpSession.getAttribute("gradeResult");
+    public String findQuestionsSolvePage(@PathVariable Integer currentPage, Model model,
+        HttpSession httpSession) {
+        GradeResult gradeResult = (GradeResult) httpSession.getAttribute("gradeResult");
+        QuestionSolveDto questionSolveDto = questionListService.createQuestionSolveDto(currentPage,
+            gradeResult);
 
-        QuestionSolveDto questionSolveDto = questionListService.createQuestionSolveDto(currentPage, gradeResult);
-
-//        String lastPage = Integer.toString(gradeResult.getQuestionsCount());
-
-//        FindTestPageResponseDto findTestPageResponseDto = questionListService.findTestPage(testId, page);
-
-//        Users users = gradeResult.getUsers();
-//        QuestionList questionList = users.getQuestionList();
-//        Question question = questionList.getQuestions().get(Integer.parseInt(page)-1);
-//        boolean isLastPage = false;
-//        if (Integer.parseInt(page) == questionList.getQuestions().size())
-//            isLastPage = true;
-
-//        QuestionDto question = findTestPageResponseDto.getQuestion();
-//        Boolean isLastPage = findTestPageResponseDto.getIsLastPage();
         model.addAttribute("questionSolveDto", questionSolveDto);
-
-
-//        model.addAttribute("question", question);
-//        model.addAttribute("page", page);
-//        model.addAttribute("lastPage", lastPage);
-//        model.addAttribute("domain-address", domainAddress);
-
-        if (httpSession.getAttribute("answerSubmitError") != null) {
+        if (httpSession.getAttribute("answerSubmitError") != null) {  // 단답형 문제에서 에러가 생길때
             model.addAttribute("answerSubmitError", true);
             httpSession.removeAttribute("answerSubmitError");
         }
         model.addAttribute("answerSubmit", new AnswerDto());
 
-//        if (Integer.parseInt(page) != 1)  // 이전 페이지가 존재하면
-//            model.addAttribute("prevPage", Integer.parseInt(page)-1);
-//        if (isLastPage) // 마지막 페이지 이면
-//            model.addAttribute("isLastPage", true);
-//        else  // 마지막 페이지가 아니면
-//            model.addAttribute("nextPage", Integer.parseInt(page)+1);
-
         String questionType = questionSolveDto.getQuestion().getType();
+        return "contents/solve-questions/" + questionType;
+    }
 
-        return "contents/solve-questions/"+questionType;
+    @PostMapping("/search")
+    public String readQuestionListByNickname(NicknameDto nicknameDto) {
+        Users user = userRepository.findByNickname(nicknameDto.getNickname());
+        if (user == null)  // 검색한 유저가 없을때
+        {
+            return "error/404";
+        }
+
+        QuestionList questionList = user.getQuestionList();
+        if (questionList == null || questionList.getQuestions().size() == 0)  //  해당 유저가 만든 문제가 없을때
+        {
+            return "error/404";
+        }
+
+        return "redirect:/solve-questions/index/" + nicknameDto.getNickname();
+    }
+
+
+    // update
+    @PostMapping("/set-nickname")
+    public String setNickname(@Validated @ModelAttribute("nickname") NicknameDto nickname,
+        BindingResult bindingResult, HttpSession httpSession,
+        RedirectAttributes redirectAttribute) {
+        if (bindingResult.hasErrors()) {
+            return "contents/solve-questions/set-nickname";
+        }
+
+        GradeResult gradeResult = (GradeResult) httpSession.getAttribute("gradeResult");
+        gradeResultService.setNickname(gradeResult, nickname.getNickname());
+        return "redirect:/solve-questions/page/1";
     }
 
     @PostMapping("/submit-answer")
-    public String answerSubmit(Integer page, @Validated @ModelAttribute("answerSubmit") AnswerDto answer, BindingResult bindingResult, String button, HttpSession httpSession) {
-
-//        String gradeResultId = (String)httpSession.getAttribute("gradeResultId");
-        GradeResult gradeResult = (GradeResult)httpSession.getAttribute("gradeResult");
-//        gradeResultService.addAnswerSubmit(gradeResultId, page, answer.getAnswer());
-//        gradeResultService.addAnswerSubmit(gradeResult.getId(), page, answer.getAnswer());
-        gradeResultService.answerSubmit(gradeResult, page, answer.getAnswer());
-
+    public String submitAnswer(Integer page,
+        @Validated @ModelAttribute("answerSubmit") AnswerDto answer, BindingResult bindingResult,
+        String button, HttpSession httpSession) {
         if (bindingResult.hasErrors()) {
             httpSession.setAttribute("answerSubmitError", answer);
             return "redirect:/solve-questions/page/" + page;
         }
 
-        if (button.equals("before"))
-            return "redirect:/solve-questions/page/"+(page-1);
-        else if (button.equals("next"))
-            return "redirect:/solve-questions/page/"+(page+1);
-        else if (button.equals("submit"))
+        GradeResult gradeResult = (GradeResult) httpSession.getAttribute("gradeResult");
+        gradeResultService.answerSubmit(gradeResult, page, answer.getAnswer());
+
+        if (button.equals("before"))  // 이전문제로 돌아갈때
+        {
+            return "redirect:/solve-questions/page/" + (page - 1);
+        } else if (button.equals("next"))  // 다음문제를 풀러갈때
+        {
+            return "redirect:/solve-questions/page/" + (page + 1);
+        } else if (button.equals("submit"))  // 답안지 제출할때
+        {
             return "redirect:/grade-questions";
+        }
         return null;
     }
-
-    @PostMapping("/search")
-    public String readTestByNickname(NicknameDto nicknameDto) {
-        Users user = userRepository.findByNickname(nicknameDto.getNickname());
-        if (user == null)
-            return "error/404";
-        QuestionList questionList = user.getQuestionList();
-
-//        QuestionList questionList = questionListRepository.findByNickname
-//        QuestionList test = this.questionListService.findTest(readTestByNicknameRequestDto.getNicknameSearch());
-        if (questionList == null || questionList.getQuestions().size() == 0) {
-            return "error/404";
-        }
-        return "redirect:/solve-questions/index/" + nicknameDto.getNickname();
-    }
-
 }

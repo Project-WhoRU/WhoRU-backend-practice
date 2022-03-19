@@ -1,6 +1,6 @@
 package com.jinbkim.whoru.contents.questionlist.web.dto;
 
-import com.jinbkim.whoru.contents.questions.domain.question.Question;
+import com.jinbkim.whoru.contents.questionlist.domain.Question;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class QuestionSolveDto {
+
     private Question question;
     private Integer currentPage;
     private Integer totalPage;
@@ -16,6 +17,7 @@ public class QuestionSolveDto {
     private Boolean isLastPage;
 
 
+    // constructor
     @Builder
     public QuestionSolveDto(Question question, Integer currentPage, Integer totalPage) {
         this.question = question;
@@ -25,5 +27,4 @@ public class QuestionSolveDto {
         this.nextPage = null;
         this.isLastPage = null;
     }
-
 }
