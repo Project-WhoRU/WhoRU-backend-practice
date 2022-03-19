@@ -3,7 +3,7 @@
 <div class="mx-auto" style="width: 500px;">
   <th:block th:if="${gradeResultList}">
     <div class="jumbotron">
-      <p th:text="|#{solve-complete.examiner} : ${gradeResultList.get(0).nickname}|"></p>
+      <p th:text="|#{solve-complete.examiner} : ${gradeResultList.get(0).users.nickname}|"></p>
       <p th:text="|#{solve-complete.total-number-of-questions}  : ${gradeResultList.get(0).questionsCount}|"></p>
       <br>
       <table>

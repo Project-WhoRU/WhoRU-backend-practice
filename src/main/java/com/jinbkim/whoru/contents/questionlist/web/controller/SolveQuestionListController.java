@@ -35,6 +35,10 @@ public class SolveQuestionListController {
     @GetMapping("/index/{nickname}")
     public String index(@PathVariable String nickname, HttpSession httpSession) {
         Users users = userRepository.findByNickname(nickname);
+        if (users == null) {
+            System.out.println("hihi");
+            return "error/404";
+        }
         GradeResult gradeResult = gradeResultService.createGradeResult();
         gradeResultService.setUser(gradeResult, users);
         httpSession.setAttribute("gradeResult", gradeResult);
