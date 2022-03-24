@@ -3,7 +3,6 @@ package com.jinbkim.whoru.config;
 import com.jinbkim.whoru.intercepter.CreateQuestionListCompleteInterceptor;
 import com.jinbkim.whoru.intercepter.LoginInterceptor;
 import com.jinbkim.whoru.intercepter.solveQuestionListCompleteInterceptor;
-import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +44,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public SessionLocaleResolver localeResolver() {
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-        sessionLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return sessionLocaleResolver;
     }
 }

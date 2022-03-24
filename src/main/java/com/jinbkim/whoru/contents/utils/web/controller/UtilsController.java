@@ -17,8 +17,7 @@ public class UtilsController {
     @GetMapping("/language")
     public String setLanguage(@RequestParam String language, HttpSession session,
         HttpServletRequest httpServletRequest) {
-        session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME,
-            new Locale(language));
+        session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(language));
         String referer = "redirect:" + httpServletRequest.getHeader("referer");
         return referer;
     }

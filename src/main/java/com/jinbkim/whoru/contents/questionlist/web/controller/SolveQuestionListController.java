@@ -42,7 +42,7 @@ public class SolveQuestionListController {
         GradeResult gradeResult = gradeResultService.createGradeResult();
         gradeResultService.setUser(gradeResult, users);
         httpSession.setAttribute("gradeResult", gradeResult);
-        return "/contents/solve-questions/index";
+        return "contents/solve-questions/index";
     }
 
     @GetMapping("/init")
